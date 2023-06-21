@@ -1,4 +1,6 @@
 import './globals.css'
+import './style.css'
+// import 'react-calendar/dist/Calendar.css';
 import { Nunito } from 'next/font/google'
 
 const inter = Nunito({ subsets: ['latin'] })
