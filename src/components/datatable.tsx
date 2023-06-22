@@ -8,8 +8,22 @@ import Dropdown from "./dropdown"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
 
+interface emptyFilter {
+    [key: string]: string
+}
 
-export default function Datatable({ url, filter, header }: { url: string, filter?: Array<string>, header: Array<string> }) {
+interface queryString{
+    [key: string]: string
+}
+
+interface DataTable {
+    url: string,
+    filter?: Array<string>,
+    header: Array<string>
+}
+
+
+export default function Datatable({ url, filter, header }: DataTable) {
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
     const [colapseFilter, setColapseFilter] = useState(false)
@@ -19,7 +33,6 @@ export default function Datatable({ url, filter, header }: { url: string, filter
             if(item === "startDate" || item === "endDate") {
                 data[item] = new Date()
             }
-
             data[item] = ""
         })
         return data
@@ -31,7 +44,7 @@ export default function Datatable({ url, filter, header }: { url: string, filter
     const path = usePathname()
     const { mutate } = useSWRConfig()
 
-    const queryString = {} as any
+    const queryString = {} as queryString
 
     searchParams.forEach((value, key) => {
         queryString[key] = value
@@ -156,7 +169,7 @@ export default function Datatable({ url, filter, header }: { url: string, filter
     }
 
     const resetFilter = () => {
-        const emptyFilter = {} as any
+        const emptyFilter = {} as emptyFilter
         const resetFilter = Object.entries(dataFilter).map(([key, value]) => {
             return emptyFilter[key] = " "
         })
