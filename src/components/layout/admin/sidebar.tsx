@@ -68,12 +68,8 @@ export default function Sidebar() {
       icon: "users",
       child: [
         {
-          name: "Sub Menu 1",
-          route: "/dashboard/users/submenu1",
-        },
-        {
-          name: "Sub Menu 2",
-          route: "/dashboard/users/submenu2",
+          name: "All Users",
+          route: "/dashboard/users",
         },
       ],
     },
