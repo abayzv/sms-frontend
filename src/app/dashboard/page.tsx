@@ -1,28 +1,36 @@
 "use client";
 import MyCalendar from "@/components/calendar";
 import CardInfo from "@/components/cardInfo";
-import Chart from "react-apexcharts";
+import Datatable from "@/components/datatable";
 
 export default function Dashboard() {
-
-    const options = {
-        chart: {
-          id: "basic-bar"
+    
+    const data = [
+        {
+            id: 1,
+            name: "John Doe",
+            email: "johndoe@gmail.com",
+            phone: "08123456789",
         },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+        {
+            id: 2,
+            name: "Rani Doe",
+            email: "ranidoe@gmail.com",
+            phone: "08123456789",
+        },
+        {
+            id: 3,
+            name: "Ari Doe",
+            email: "aridoe@gmail.com",
+            phone: "08123456789",
         }
-    }
+    ]
 
-    const series = [
-      {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
-      },
-      {
-        name: "series-1",
-        data: [10, 60, 20, 30, 60, 30, 40, 71]
-      }
+    const header = [
+        "role",
+        "name",
+        "email",
+        "phone"
     ]
 
     return (
@@ -33,17 +41,8 @@ export default function Dashboard() {
                 <CardInfo icon="users" name="Students" number={100} />
                 <CardInfo icon="users" name="Students" number={100} />
             </div>
-            <div className="grid sm:grid-cols-2 gap-5">
-                <div className="p-5 min-h-[200px] border border-gray-200 bg-white">
-                    <Chart
-                        options={options}
-                        series={series}
-                        type="line"
-                        />
-                    </div>
-                <div className="p-5 min-h-[200px] border border-gray-100 bg-white">
-                  <MyCalendar/>
-                </div>
+            <div className="grid gap-5">
+                <Datatable url="/users?show=1" filter={["name"]} header={header} />
             </div>
         </div>
     )
