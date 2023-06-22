@@ -20,16 +20,16 @@ export default function Pagination({ totalPage, page }:{totalPage: number, page:
             return (
                 <button key={index} onClick={() => {
                     goToPage(item)
-                }} className={`bg-sky-100 p-3 rounded-md ${currentPage === item ? "bg-sky-300" : ""}`}>{item}</button>
+                }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
             )
         })
     }
 
     return (
         <div className="flex justify-end gap-5 mt-5">
-            <button className="bg-sky-100 p-3 rounded-md">Prev</button>
+            <button className="bg-primary-100 p-3 rounded-md">Prev</button>
             {renderPage()}
-            <button className="bg-sky-100 p-3 rounded-md">Next</button>
+            <button className="bg-primary-100 p-3 rounded-md">Next</button>
         </div>
     )
 }
