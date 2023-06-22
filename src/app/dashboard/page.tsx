@@ -29,8 +29,12 @@ export default function Dashboard() {
         "role",
         "name",
         "email",
-        "phone"
+        "phone",
+        "createdAt",
+        "action"
     ]
+
+    const filter = ["name", "startDate", "endDate"]
 
     return (
         <div className="grid gap-5">
@@ -41,7 +45,7 @@ export default function Dashboard() {
                 <CardInfo icon="users" name="Students" number={100} />
             </div>
             <div className="grid gap-5">
-                <Datatable url="/users?show=1" filter={["name"]} header={header} />
+                <Datatable url="/users" filter={filter} header={header} />
             </div>
         </div>
     )
