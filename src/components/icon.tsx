@@ -1,4 +1,4 @@
-import { FaHouseUser, FaUser, FaBars, FaChevronRight, FaChevronDown, FaEnvelope, FaBell, FaSignOutAlt } from "react-icons/fa";
+import { FaHouseUser, FaUser, FaBars, FaChevronRight, FaChevronDown, FaEnvelope, FaBell, FaSignOutAlt, FaKey } from "react-icons/fa";
 
 export default function Icon({name = ""} : {name?: string}){
 
@@ -20,6 +20,8 @@ export default function Icon({name = ""} : {name?: string}){
                 return <FaBell />
             case "sign-out":
                 return <FaSignOutAlt />
+            case "key":
+                return <FaKey />
 
         }
     }

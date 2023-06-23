@@ -3,9 +3,13 @@ const nextConfig = {
     images: {
         remotePatterns: [
           {
-            protocol: 'https',
             hostname: 'assets.ayobandung.com',
+            protocol: 'https',
           },
+          {
+            hostname: 'mahesadev.com',
+            protocol: 'https',
+           }
         ],
       },
 }
