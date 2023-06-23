@@ -1,5 +1,6 @@
 'use client'
 import Icon from "./icon";
+import { useSession } from "next-auth/react";
 
 export default function CardInfo({icon, name, number, className = "bg-white"} : {icon: string, name: string, number: number, className?: string}){
     return(

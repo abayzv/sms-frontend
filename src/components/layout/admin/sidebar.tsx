@@ -3,6 +3,7 @@ import Icon from "@/components/icon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
   const [isColapse, setIsColapse] = useState(false);
@@ -59,17 +60,17 @@ export default function Sidebar() {
   const menu = [
     {
       name: "Dashboard",
-      route: "/dashboard",
+      route: "/",
       icon: "home",
     },
     {
       name: "Users",
-      route: "/dashboard/users",
+      route: "/users",
       icon: "users",
       child: [
         {
           name: "All Users",
-          route: "/dashboard/users",
+          route: "/users",
         },
       ],
     },
@@ -189,15 +190,15 @@ export default function Sidebar() {
           {renderMenu()}
 
           <li className="mt-auto p-5">
-            <Link
-              href={"/logout"}
+            <button
               className={`flex gap-4 items-center text-base p-4 h-[56px] bg-primary-400 hover:bg-primary-300 rounded-lg ${
                 isColapse ? "justify-center" : "px-7"
               } text-white`}
+              onClick={()=> signOut()}
             >
               <Icon name="sign-out" />
               <span className={`${isColapse ? "hidden" : ""}`}>Logout</span>
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
