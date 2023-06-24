@@ -1,7 +1,14 @@
 import { Transition } from '@headlessui/react'
 import Input from './form/input'
 import Select from './form/select'
-import { useState } from 'react'
+
+interface DataForm {
+    name: string,
+    type: string,
+    label: string,
+    defaultValue: string | number,
+    url?: string
+}
 
 export default function SideModal({ title, action, isShow, setShow, data, setData, error, isLoading }: { title: string, action: Function, isShow: boolean, setShow: Function, data: any, setData: Function, error: Array<{type?: string, msg?: string, path?: string, location?: string, value?:string}>, isLoading: boolean }) {
 

@@ -7,6 +7,8 @@ import Dropdown from "./dropdown"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
 import SideModal from "./sideModal"
+import { useAlertStore } from "../lib/store"
+import { DataForm } from "./sideModal"
 
 const actionDropwdown : Array<{name: string, route: string}> = [
     {
@@ -19,7 +21,7 @@ const actionDropwdown : Array<{name: string, route: string}> = [
     }
 ]
 
-export default function Datatable({ url, filter, header, title, action = actionDropwdown }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<{name: string, route: string}> }) {
+export default function Datatable({ url, filter, header, title, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<{name: string, route: string}>, dataForm?: Array<DataForm> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
@@ -37,6 +39,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
         })
         return data
     })
+    const { setAlert } = useAlertStore()
     const searchParams = useSearchParams()
     const page = searchParams?.get("page")
     const show = searchParams?.get("show")
@@ -94,8 +97,8 @@ export default function Datatable({ url, filter, header, title, action = actionD
     const renderHeader = () => {
 
         return headerElement.map((item, index) => {
-            if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 p-3">CREATED AT</th>
-            return <th key={index} className="text-center bg-primary-100 p-3">{item.toUpperCase()}</th>
+            if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 border p-3 font-semibold">CREATED AT</th>
+            return <th key={index} className="text-center bg-primary-100 p-3 font-semibold border">{item.toUpperCase()}</th>
         })
 
     }
@@ -109,27 +112,28 @@ export default function Datatable({ url, filter, header, title, action = actionD
 
         return dataSet.map((item: Array<any>, index: number) => {
             return (
-                <tr key={index}>
+                <tr key={index} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
+                    <td className="border text-neutral-600 border-gray-200 text-center p-3">{index+1}.</td>
                     {headerElement.map((key: any, index) => {
                         if (key === "action") return (
-                            <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">
+                            <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
                                 {/* @ts-ignore */}
                                 <Dropdown action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item.id} />
                             </td>
                         )
                         if (key === "role") return (
-                            <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">
+                            <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
                                 {/* @ts-ignore */}
                                 <span className={`rounded-lg p-2 px-5 ${RoleColor[item[key]]}`}>{item[key]}</span>
                             </td>
                         )
                         if (!item[key]) return (
-                            <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">
+                            <td key={index} className="border text-neutral-600 border-gray-200 p-3">
                                 <span className="rounded-lg p-2 px-5 bg-red-100 border border-red-200 text-red-500">Not Filled</span>
                             </td>
                         )
-                        if (key === "createdAt") return <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">{FormatDate(item[key])}</td>
-                        return <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">{item[key]}</td>
+                        if (key === "createdAt") return <td key={index} className="border text-neutral-600 border-gray-200 text-end p-3">{FormatDate(item[key])}</td>
+                        return <td key={index} className="border text-neutral-600 border-gray-200 p-3">{item[key]}</td>
                     })}
                 </tr>
             )
@@ -185,6 +189,13 @@ export default function Datatable({ url, filter, header, title, action = actionD
                 mutate(url)
                 setFormData({})
                 setFormError([])
+                setAlert({
+                    type: "success",
+                    message: "Create User Success",
+                    isShowAlert: true
+                })
+                setRequesting(false)
+                setShowModal(false)
             }
         } catch (error : any) {
             setRequesting(false)
@@ -244,6 +255,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
             <table className="w-full">
                 <thead>
                     <tr>
+                        <th className="text-center font-semibold bg-primary-100 p-3 border">No</th>
                         {renderHeader()}
                     </tr>
                 </thead>
@@ -252,7 +264,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
                 </tbody>
             </table>
             <Pagination totalPage={totalPage} page={dataPage} />
-            <SideModal title="Add User" action={()=>submitCreate()} isShow={isShowModal} setShow={setShowModal} data={formData} setData={setFormData} error={formError} isLoading={isRequesting} />
+            <SideModal title="Add User" dataForm={dataForm} action={()=>submitCreate()} isShow={isShowModal} setShow={setShowModal} data={formData} setData={setFormData} error={formError} isLoading={isRequesting} />
         </div>
     )
 }

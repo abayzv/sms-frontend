@@ -12,7 +12,7 @@ export default function Layout({ children, title = "School Management System" }:
         <div className="w-full max-h-screen overflow-hidden">
           <Header title={title}  />
           <div className="p-10 flex flex-col h-screen overflow-y-auto">
-            <Alert message="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Necessitatibus, accusantium?" type="success" />
+            <Alert />
             {children}
             <Footer />  
           </div>
