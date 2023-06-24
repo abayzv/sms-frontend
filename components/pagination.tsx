@@ -1,13 +1,24 @@
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
 export default function Pagination({ totalPage, page }:{totalPage: number, page: number}) {
     const [currentPage, setCurrentPage] = useState(page)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const path = usePathname() as string
 
     const goToPage = (page: number) => {
         setCurrentPage(page)
-        router.push(`?page=${page}`)
+        // get curent params
+        const params = {} as any
+        searchParams?.forEach((value, key) => {
+            params[key] = value
+        }
+        )
+        // set new page
+        params.page = page
+        // set new params
+        router.push(`${path}?${new URLSearchParams(params).toString()}`)
     }
 
     const renderPage = () => {
