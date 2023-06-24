@@ -1,37 +1,42 @@
 import { Menu } from '@headlessui/react'
+import Link from 'next/link'
+interface DropdownActions {
+   name: string,
+   route : string
+}
 
-export default function Dropdown({className} : {className: string}) {
+export default function Dropdown({className, action, id} : {className: string, action: Array<DropdownActions>, id: string}) {
+
+    const renderMenu = () => {
+        return action.map((item, index) => {
+          // replace item route with id
+            item.route = item.route.replace(":id", id)
+
+            return (
+                <Menu.Item key={index}>
+                    {({ active }) => (
+                        <Link
+                        href={item.route}
+                        className={`${
+                            active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                        } p-2 px-5`}
+                        >
+                        {item.name}
+                        </Link>
+                    )}
+                </Menu.Item>
+            )
+        })
+    }
 
     return (
         <Menu>
           <Menu.Button className={`${className}`}>More</Menu.Button>
-        <div className="relative">
-        <Menu.Items className="p-2 bg-white text-black flex flex-col items-start gap-2 max-w-[300px] rounded-md mt-2 absolute top-0 left-0">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  className={`${active && 'bg-blue-500'}`}
-                  href="/account-settings"
-                >
-                  Account settings
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  className={`${active && 'bg-blue-500'}`}
-                  href="/account-settings"
-                >
-                  Documentation
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item disabled>
-              <span className="opacity-75">Invite a friend (coming soon!)</span>
-            </Menu.Item>
-          </Menu.Items>
-        </div>
+          <div className="relative">
+            <Menu.Items className="absolute grid bg-white w-[200px] border border-gray-300 text-start rounded-md mt-3">
+              {renderMenu()}    
+            </Menu.Items>
+          </div>
         </Menu>
       )
 

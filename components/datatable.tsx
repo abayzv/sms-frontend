@@ -7,7 +7,18 @@ import Dropdown from "./dropdown"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
 
-export default function Datatable({ url, filter, header }: { url: string, filter?: Array<string>, header: Array<string> }) {
+const actionDropwdown : Array<{name: string, route: string}> = [
+    {
+        name: "Delete",
+        route: "/users/delete"
+    },
+    {
+        name: "Detail",
+        route: "/users/:id"
+    }
+]
+
+export default function Datatable({ url, filter, header, title, action = actionDropwdown }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<{name: string, route: string}> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
@@ -94,7 +105,8 @@ export default function Datatable({ url, filter, header }: { url: string, filter
                     {headerElement.map((key: any, index) => {
                         if (key === "action") return (
                             <td key={index} className="border-b text-neutral-600 border-gray-200 text-center p-3">
-                                <Dropdown className="bg-primary-500 text-white rounded-lg p-2 px-5" />
+                                {/* @ts-ignore */}
+                                <Dropdown action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item.id} />
                             </td>
                         )
                         if (key === "role") return (
@@ -165,13 +177,21 @@ export default function Datatable({ url, filter, header }: { url: string, filter
     // filter
     const handleChangeShow = (e: any) => {
         const show = e.target.value
-        router.push("?show=" + show)
+        const params = {} as any
+        searchParams?.forEach((value, key) => {
+                params[key] = value
+            }
+        )
+        // set new page
+        params.show = show
+        // set new params
+        router.push(`${path}?${new URLSearchParams(params).toString()}`)
     }
     // End Filter
 
     return (
         <div className="w-full bg-white p-5 border-b-4 border-primary-300 relative">
-            <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">Users Data</span>
+            <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span>
 
             <div className="relative mt-10 mb-5">
                 <div className="flex justify-between items-end border-b border-gray-200 pb-3 px-5 gap-3">
