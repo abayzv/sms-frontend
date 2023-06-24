@@ -24,7 +24,15 @@ export const authOptions: AuthOptions = {
       session.user = token as any;
       return session;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account, profile, trigger, session }) {
+      // if trigger update , set new token
+      if (trigger === "update") {
+        token = {
+          ...token,
+          ...session.user,
+        };
+      }
+
       return { ...token, ...user };
     },
   },

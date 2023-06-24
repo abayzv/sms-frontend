@@ -1,15 +1,16 @@
 'use client'
 import { useEffect, useState } from "react"
 import swr, { useSWRConfig } from "swr"
-import axios from "axios"
+import useAxios from "@/lib/useAxios"
 import Pagination from "@/components/pagination"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import Dropdown from "./dropdown"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
-
+import { useSession } from "next-auth/react"
 
 export default function Datatable({ url, filter, header }: { url: string, filter?: Array<string>, header: Array<string> }) {
+    const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
     const [colapseFilter, setColapseFilter] = useState(false)
@@ -25,17 +26,18 @@ export default function Datatable({ url, filter, header }: { url: string, filter
         return data
     })
     const searchParams = useSearchParams()
-    const page = searchParams.get("page")
-    const show = searchParams.get("show")
+    const page = searchParams?.get("page")
+    const show = searchParams?.get("show")
     const router = useRouter()
-    const path = usePathname()
+    const path = usePathname() as string
     const { mutate } = useSWRConfig()
 
     const queryString = {} as any
 
-    searchParams.forEach((value, key) => {
+    searchParams?.forEach((value, key) => {
         queryString[key] = value
     })
+    const { data: session, update: updateSession } = useSession()
 
     enum RoleColor {
         "superadmin" = "bg-yellow-100 border border-yellow-200",
@@ -44,14 +46,8 @@ export default function Datatable({ url, filter, header }: { url: string, filter
         "student" = "bg-blue-100 border border-blue-200"
     }
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MzBkZDJiZC0yZmJkLTQxNjMtODUzMS0yZmQwNWI5NDZjNjMiLCJyb2xlIjoxLCJpYXQiOjE2ODc0NDMwODcsImV4cCI6MTY4NzQ0NjY4N30.RRUMgx7NCPWWZIeA_fZL7pjcuoeXLXSCZVbObmAQM0M"
-
     const { data, error, isLoading } = swr(url, async (url) => {
-        const res = await axios.get(url, {
-            baseURL: process.env.NEXT_PUBLIC_API_URL,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
+        const res = await axiosAuth.get( url, {
             params: {
                 page,
                 show,

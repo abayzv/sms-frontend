@@ -1,14 +1,32 @@
-'use client'
-
-import React from 'react'
-import { SessionProvider } from 'next-auth/react'
+"use client";
+import React from "react";
+import { SessionProvider } from "next-auth/react";
+import { SWRConfig } from "swr";
 
 interface Props {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
-const Providers = ({ children }: Props) => {
-    return <SessionProvider>{children}</SessionProvider>
+function localStorageProvider() {
+    // When initializing, we restore the data from `localStorage` into a map.
+    const map = new Map(JSON.parse(localStorage.getItem('app-cache') || '[]'))
+   
+    // Before unloading the app, we write back all the data into `localStorage`.
+    window.addEventListener('beforeunload', () => {
+      const appCache = JSON.stringify(Array.from(map.entries()))
+      localStorage.setItem('app-cache', appCache)
+    })
+   
+    // We still use the map for write & read for performance.
+    return map
 }
 
-export default Providers
+const Providers = ({ children, ...props }: Props) => {
+  return (
+    <SessionProvider>
+      <SWRConfig value={{ provider: localStorageProvider }}>{children}</SWRConfig>
+    </SessionProvider>
+  );
+};
+
+export default Providers;

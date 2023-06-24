@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./style.css";
 import { Nunito } from "next/font/google";
 import Main from "@/components/layout/admin/main";
 import Providers from "./Providers";
@@ -16,14 +17,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-   <Providers>
-     <html lang="en" color-scheme="light">
+    <html lang="en" color-scheme="light">
       <body className={inter.className}>
-        <Main title="School Management System" >
-          {children}
-        </Main>
+        <Providers>
+          <Main title="School Management System" >
+            {children}
+          </Main>
+        </Providers>
       </body>
     </html>
-   </Providers>
   );
 }

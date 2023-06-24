@@ -9,13 +9,30 @@ const useAxios = () => {
   const { data: session } = useSession();
   const refreshToken = useRefreshToken();
 
+  axiosAuth.interceptors.request.use(
+    (config) => {
+      if (!config.headers["Authorization"]) {
+        config.headers[
+          "Authorization"
+          // @ts-ignore
+        ] = `Bearer ${session.user.access_token}`;
+      }
+
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   useEffect(() => {
     const requestInterceptor = axiosAuth.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers[
             "Authorization"
-          ] = `Bearer ${session?.user.access_token}`;
+            // @ts-ignore
+          ] = `Bearer ${session.user.access_token}`;
         }
 
         return config;
@@ -34,7 +51,8 @@ const useAxios = () => {
           await refreshToken();
           prevRequest.headers[
             "Authorization"
-          ] = `Bearer ${session?.user.access_token}`;
+            // @ts-ignore
+          ] = `Bearer ${session.user.access_token}`;
 
           return axiosAuth(prevRequest);
         }

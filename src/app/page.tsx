@@ -1,3 +1,4 @@
+import MyCalendar from "@/components/calendar";
 import CardInfo from "@/components/cardInfo";
 
 export default async function Dashboard() {
@@ -11,7 +12,9 @@ export default async function Dashboard() {
             </div>
             <div className="grid grid-cols-2 gap-5">
                 <div className="p-5 min-h-[200px] border border-gray-100 bg-white"></div>
-                <div className="p-5 min-h-[200px] border border-gray-100 bg-white"></div>
+                <div className="p-5 min-h-[200px] border border-gray-100 bg-white">
+                    <MyCalendar />
+                </div>
             </div>
         </div>
     )
