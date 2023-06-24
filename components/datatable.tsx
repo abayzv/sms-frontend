@@ -6,6 +6,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import Dropdown from "./dropdown"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
+import SideModal from "./sideModal"
 
 const actionDropwdown : Array<{name: string, route: string}> = [
     {
@@ -23,6 +24,8 @@ export default function Datatable({ url, filter, header, title, action = actionD
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
     const [colapseFilter, setColapseFilter] = useState(false)
+    const [isShowModal, setShowModal] = useState(false)
+    const [isRequesting, setRequesting] = useState(false)
     const [dataFilter, setFilter] = useState<any>(() => {
         const data = {} as any
         filter?.forEach((item) => {
@@ -40,6 +43,11 @@ export default function Datatable({ url, filter, header, title, action = actionD
     const router = useRouter()
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
+
+    // Form Data
+    const [formData, setFormData] = useState({} as any)
+    const [formError, setFormError] = useState([] as any)
+    // End Form Data
 
     const queryString = {} as any
 
@@ -169,6 +177,21 @@ export default function Datatable({ url, filter, header, title, action = actionD
         router.push(path)
     }
 
+    const submitCreate = async() => {
+        try {
+            setRequesting(true)
+            const res = await axiosAuth.post(url, formData)
+            if(res){
+                mutate(url)
+                setFormData({})
+                setFormError([])
+            }
+        } catch (error : any) {
+            setRequesting(false)
+            setFormError(error.response.data.errors)
+        }
+    }
+
     useEffect(() => {
         mutate(url)
 
@@ -191,7 +214,8 @@ export default function Datatable({ url, filter, header, title, action = actionD
 
     return (
         <div className="w-full bg-white p-5 border-b-4 border-primary-300 relative">
-            <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span>
+            {/* <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span> */}
+            <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={()=>setShowModal(true)}>+Add {title}</button>
 
             <div className="relative mt-10 mb-5">
                 <div className="flex justify-between items-end border-b border-gray-200 pb-3 px-5 gap-3">
@@ -228,6 +252,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
                 </tbody>
             </table>
             <Pagination totalPage={totalPage} page={dataPage} />
+            <SideModal title="Add User" action={()=>submitCreate()} isShow={isShowModal} setShow={setShowModal} data={formData} setData={setFormData} error={formError} isLoading={isRequesting} />
         </div>
     )
 }
