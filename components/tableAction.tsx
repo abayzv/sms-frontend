@@ -9,8 +9,6 @@ export interface DropdownActions {
 
 export default function Action({className, action, id} : {className: string, action: Array<DropdownActions>, id: string}) {
 
-
-
     const renderMenu = () => {
         return action.map((item, index) => {
           // replace item route with id
