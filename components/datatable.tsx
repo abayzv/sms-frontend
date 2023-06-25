@@ -302,9 +302,27 @@ export default function Datatable({ url, filter, header, title, action = actionD
                     {renderBody()}
                 </tbody>
             </table>
-            <Pagination totalPage={totalPage} page={dataPage} />
-            <SideModal title="Add User" dataForm={dataForm} action={()=>submitCreate()} isShow={isShowModal} setShow={setShowModal} data={formData} setData={setFormData} error={formError} isLoading={isRequesting} />
-            <Confirmation isShow={isShowConfirmation} icon="exclamation-triangle" title="Are you sure?" message="Do you really want to delete this records? This process cannot be undone" onConfirm={()=> deleteData(deleteId)} onCancel={()=> setShowConfirmation(false)} isLoading={isRequesting} />    
+            <Pagination 
+                totalPage={totalPage} 
+                page={dataPage} />
+            <SideModal 
+                title="Add Data" 
+                dataForm={dataForm} 
+                action={()=>submitCreate()} 
+                isShow={isShowModal} 
+                setShow={setShowModal} 
+                data={formData} 
+                setData={setFormData}
+                error={formError} 
+                isLoading={isRequesting} />
+            <Confirmation 
+                isShow={isShowConfirmation} 
+                icon="exclamation-triangle" 
+                title="Are you sure?" 
+                message="Do you really want to delete this records? This process cannot be undone" 
+                onConfirm={()=> deleteData(deleteId)} 
+                onCancel={()=> setShowConfirmation(false)} 
+                isLoading={isRequesting} />    
         </div>
     )
 }
