@@ -1,9 +1,9 @@
 import Datatable from "../../components/datatable"
 import Fadein from "../../components/transition/fade-in"
 
-Roles.auth = {}
+Logs.auth = {}
 
-export default function Roles(){
+export default function Logs(){
     const dataForm = [
         {
             name: 'name',
@@ -13,17 +13,9 @@ export default function Roles(){
         }
     ]
 
-    const action = [
-        {
-            name: "Detail",
-            route: "/users/:id"
-        }
-    
-    ]
-
     return (
         <Fadein>
-            <Datatable dataForm={dataForm} title="Role" url="/roles" filter={["name"]} header={["name","createdAt", "action"]} action={action} />
+            <Datatable dataForm={dataForm} title="Role" url="/logs" filter={["name","action","startDate","endDate"]} header={["userName|name", "actionName|action", "description" ,"createdAt"]} allowCreate={false}/>
         </Fadein>
     )
 }   

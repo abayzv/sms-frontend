@@ -13,13 +13,9 @@ import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
 
 const actionDropwdown : Array<DropdownActions> = [
-    {
-        name: "Detail",
-        route: "/users/:id"
-    }
 ]
 
-export default function Datatable({ url, filter, header, title, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
+export default function Datatable({ url, filter, header, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, allowCreate?: boolean ,action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
@@ -96,9 +92,18 @@ export default function Datatable({ url, filter, header, title, action = actionD
 
     const renderHeader = () => {
 
+        const renderTitle = (name : string) => {
+            // if name has | then split it then return the second element
+            if (name.includes("|")) {
+                const splitName = name.split("|")
+                return splitName[1]
+            }
+            return name
+        }
+
         return headerElement.map((item, index) => {
             if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 border p-3 font-semibold">CREATED AT</th>
-            return <th key={index} className="text-center bg-primary-100 p-3 font-semibold border">{item.toUpperCase()}</th>
+            return <th key={index} className="text-center bg-primary-100 p-3 font-semibold border">{renderTitle(item).toUpperCase()}</th>
         })
 
     }
@@ -106,15 +111,22 @@ export default function Datatable({ url, filter, header, title, action = actionD
     const renderBody = () => {
         // each header element will be the key of the data
         if (isLoading) return <tr><td colSpan={headerElement.length} className="border-b border-gray-200 text-center p-3">Loading...</td></tr>
-        if (!data) return <tr><td colSpan={headerElement.length} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
-
+        if (!data) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
+        
         const { dataSet } = data as any
+        if (dataSet.length === 0) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
 
         return dataSet.map((item: Array<any>, index: number) => {
             return (
                 <tr key={index} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
                     <td className="border text-neutral-600 border-gray-200 text-center p-3">{index+1}.</td>
                     {headerElement.map((key: any, index) => {
+                        // if key has | then split it then return the first element
+                        if (key.includes("|")) {
+                            const splitKey = key.split("|")
+                            key = splitKey[0]
+                        }
+
                         if (key === "action") return (
                             <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
                                 {/* @ts-ignore */}
@@ -265,9 +277,11 @@ export default function Datatable({ url, filter, header, title, action = actionD
     return (
         <div className="w-full bg-white p-5 border-b-4 border-primary-300 relative">
             {/* <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span> */}
-            <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={()=>setShowModal(true)}>+Add {title}</button>
+            {allowCreate && (
+                <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={()=>setShowModal(true)}>+Add {title}</button>
+            )}
 
-            <div className="relative mt-10 mb-5">
+            <div className={`relative mb-5 ${allowCreate && "mt-10"}`}>
                 <div className="flex justify-between items-end border-b border-gray-200 pb-3 px-5 gap-3">
                     {filter && (
                         <div className="text-lg text-neutral-600 flex gap-5 items-center cursor-pointer" onClick={() => {

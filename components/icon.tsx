@@ -1,4 +1,21 @@
-import { FaHouseUser, FaUser, FaBars, FaChevronRight, FaChevronDown, FaEnvelope, FaBell, FaSignOutAlt, FaKey, FaRedoAlt, FaCheckCircle, FaTimes, FaTimesCircle, FaExclamationTriangle, FaUserCog } from "react-icons/fa";
+import { 
+    FaHouseUser, 
+    FaUser, 
+    FaBars, 
+    FaChevronRight, 
+    FaChevronDown, 
+    FaEnvelope, 
+    FaBell, 
+    FaSignOutAlt, 
+    FaKey, 
+    FaRedoAlt, 
+    FaCheckCircle, 
+    FaTimes, 
+    FaTimesCircle, 
+    FaExclamationTriangle, 
+    FaUserCog,
+    FaHistory
+ } from "react-icons/fa";
 
 export default function Icon({ name = "" }: { name?: string }) {
 
@@ -34,6 +51,8 @@ export default function Icon({ name = "" }: { name?: string }) {
                 return <FaExclamationTriangle />
             case "user-cog":
                 return <FaUserCog />
+            case "history":
+                return <FaHistory />
 
         }
     }

@@ -84,6 +84,11 @@ export default function Sidebar() {
         },
       ],
     },
+    {
+      name: "Logs",
+      route: "/logs",
+      icon: "history",
+    },
   ];
 
   const renderChildMenu = (index: number) => {
