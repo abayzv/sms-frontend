@@ -11,7 +11,7 @@ import { useAlertStore } from "../lib/store"
 import { DataForm } from "./sideModal"
 
 const actionDropwdown : Array<{name: string, route: string}> = [
-    {
+    { 
         name: "Delete",
         route: "/users/delete"
     },

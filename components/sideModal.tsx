@@ -2,7 +2,7 @@ import { Transition } from '@headlessui/react'
 import Input from './form/input'
 import Select from './form/select'
 
-interface DataForm {
+export interface DataForm {
     name: string,
     type: string,
     label: string,
@@ -10,41 +10,7 @@ interface DataForm {
     url?: string
 }
 
-export default function SideModal({ title, action, isShow, setShow, data, setData, error, isLoading }: { title: string, action: Function, isShow: boolean, setShow: Function, data: any, setData: Function, error: Array<{type?: string, msg?: string, path?: string, location?: string, value?:string}>, isLoading: boolean }) {
-
-    const dataForm = [
-        {
-            name: 'name',
-            type: 'text',
-            label: 'Name',
-            defaultValue: ''
-        },
-        {
-            name: 'email',
-            type: 'text',
-            label: 'Email',
-            defaultValue: ''
-        },
-        {
-            name: 'password',
-            type: 'password',
-            label: 'Password',
-            defaultValue: ''
-        },
-        {
-            name: 'confirmPassword',
-            type: 'password',
-            label: 'Confirm Password',
-            defaultValue: ''
-        },
-        {
-            name: 'roleId',
-            type: 'select',
-            label: 'Role',
-            defaultValue: '',
-            url: '/list/roles'
-        },
-    ]
+export default function SideModal({ title, action, isShow, setShow, data, setData, error, isLoading, dataForm }: { title: string, action: Function, isShow: boolean, setShow: Function, data: any, setData: Function, error: Array<{type?: string, msg?: string, path?: string, location?: string, value?:string}>, isLoading: boolean, dataForm: Array<DataForm> }) {
 
     const renderError = (path: string) => {
         const errorMssg = error.find((item : any) => item.path.toLowerCase() === path.toLowerCase())
