@@ -53,9 +53,9 @@ export default function Action({className, action, id} : {className: string, act
 
     return (
         <Menu>
-          <Menu.Button className={`${className}`}>More</Menu.Button>
+          <Menu.Button className={`${className} text-xs`}>More</Menu.Button>
           <div className="relative">
-            <Menu.Items className="absolute grid bg-white w-[200px] border border-gray-300 text-start rounded-md mt-3">
+            <Menu.Items className="absolute grid bg-white w-[200px] border border-gray-300 text-start rounded-md mt-2">
               {renderMenu()}    
             </Menu.Items>
           </div>
