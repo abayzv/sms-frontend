@@ -5,6 +5,7 @@ import { SessionProvider, useSession } from "next-auth/react"
 import { ReactElement } from "react"
 import Layout from "../components/layout/main"
 import Lottie from "lottie-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function App({
   Component,
@@ -18,7 +19,9 @@ export default function App({
       {Component.auth ? (
         <Auth>
           <Layout>
-            <Component {...pageProps} />
+            <AnimatePresence>
+              <Component {...pageProps} />
+            </AnimatePresence>
           </Layout>
         </Auth>
       ) : (
@@ -35,11 +38,15 @@ function Auth({ children }: { children: ReactElement }) {
 
   if (status === "loading") {
     return (
-      <div className="w-screen h-screen flex items-center justify-center">
+      <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+       className="w-screen h-screen flex items-center justify-center">
         <Lottie animationData={loading} style={{
           width: "200px",
         }} />
-      </div>
+      </motion.div>
     )
   }
 

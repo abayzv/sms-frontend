@@ -1,13 +1,15 @@
 import MyCalendar from "../components/calendar";
 import CardInfo from "../components/cardInfo";
 import MyChart from "../components/chart";
+import Fadein from "../components/transition/fade-in";
 
 Dashboard.auth = {}
 
 export default function Dashboard() {
 
     return (
-        <div className="grid gap-5">
+        <Fadein>
+            <div className="grid gap-5">
             <div className="grid sm:grid-cols-4 gap-5">
                 <CardInfo icon="users" name="Students" number={100} />
                 <CardInfo icon="users" name="Students" number={100} />
@@ -22,6 +24,7 @@ export default function Dashboard() {
                     <MyCalendar />
                 </div>
             </div>
-        </div>
+            </div>
+        </Fadein>
     )
 }

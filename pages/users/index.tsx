@@ -1,4 +1,6 @@
 import Datatable from "../../components/datatable"
+import Fadein from "../../components/transition/fade-in"
+
 Users.auth = {}
 
 export default function Users(){
@@ -37,8 +39,8 @@ export default function Users(){
     ]
 
     return (
-        <div>
+        <Fadein>
             <Datatable dataForm={dataForm} title="User Data" url="/users" filter={["name"]} header={["name","email","role","createdAt", "action"]} />
-        </div>
+        </Fadein>
     )
-}
+}   
