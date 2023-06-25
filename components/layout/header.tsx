@@ -7,6 +7,9 @@ export default function Header({title} : {title: string}) {
       <nav className="bg-white border-gray-200 dark:bg-gray-900 w-full">
         <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto p-4 px-10">
           <div>{title}</div>
+          <div className="border border-gray-200 w-1/2 rounded-lg">
+            <input type="text" placeholder="search here" className="border-none outline-none" />
+          </div>
           <div className="flex gap-3 items-center md:order-2">
             <button className="text-neutral-500 p-2 rounded-full bg-gray-200 hover:bg-gray-100 relative">
               <Icon name="envelope" />

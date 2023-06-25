@@ -3,30 +3,29 @@ import swr, { useSWRConfig } from "swr"
 import useAxios from "@/lib/useAxios"
 import Pagination from "./pagination"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import Dropdown from "./dropdown"
+import  Action from "./tableAction"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
 import SideModal from "./sideModal"
 import { useAlertStore } from "../lib/store"
 import { DataForm } from "./sideModal"
+import { DropdownActions } from "./tableAction"
+import { Confirmation } from "./modal"
 
-const actionDropwdown : Array<{name: string, route: string}> = [
-    { 
-        name: "Delete",
-        route: "/users/delete"
-    },
+const actionDropwdown : Array<DropdownActions> = [
     {
         name: "Detail",
         route: "/users/:id"
     }
 ]
 
-export default function Datatable({ url, filter, header, title, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<{name: string, route: string}>, dataForm?: Array<DataForm> }) {
+export default function Datatable({ url, filter, header, title, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
     const [colapseFilter, setColapseFilter] = useState(false)
     const [isShowModal, setShowModal] = useState(false)
+    const [isShowConfirmation, setShowConfirmation] = useState(false)
     const [isRequesting, setRequesting] = useState(false)
     const [dataFilter, setFilter] = useState<any>(() => {
         const data = {} as any
@@ -50,6 +49,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
     // Form Data
     const [formData, setFormData] = useState({} as any)
     const [formError, setFormError] = useState([] as any)
+    const [deleteId, setDeleteId] = useState("")
     // End Form Data
 
     const queryString = {} as any
@@ -118,7 +118,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
                         if (key === "action") return (
                             <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
                                 {/* @ts-ignore */}
-                                <Dropdown action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item.id} />
+                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item.id} />
                             </td>
                         )
                         if (key === "role") return (
@@ -203,6 +203,45 @@ export default function Datatable({ url, filter, header, title, action = actionD
         }
     }
 
+    const deleteData = async(id: string) => {
+        try {
+            setRequesting(true)
+            const res = await axiosAuth.delete(`${url}/${id}`)
+            if(res){
+                mutate(url)
+                setAlert({
+                    type: "success",
+                    message: "Delete User Success",
+                    isShowAlert: true
+                })
+                setRequesting(false)
+                setShowConfirmation(false)
+            }
+        } catch (error : any) {
+            setRequesting(false)
+            setShowConfirmation(false)
+            setAlert({
+                type: "error",
+                message: "Unexpected Error, Failed to delete data",
+                isShowAlert: true
+            })
+        }
+    }
+
+    // add delete action
+    action  = [
+        ...action,
+        { 
+            name: "Delete",
+            route: "/users/delete",
+            action: (id : string) => {
+                setShowConfirmation(true)
+                setDeleteId(id)
+            }
+        },
+    ]
+    // End add delete action
+    
     useEffect(() => {
         mutate(url)
 
@@ -265,6 +304,7 @@ export default function Datatable({ url, filter, header, title, action = actionD
             </table>
             <Pagination totalPage={totalPage} page={dataPage} />
             <SideModal title="Add User" dataForm={dataForm} action={()=>submitCreate()} isShow={isShowModal} setShow={setShowModal} data={formData} setData={setFormData} error={formError} isLoading={isRequesting} />
+            <Confirmation isShow={isShowConfirmation} icon="exclamation-triangle" title="Are you sure?" message="Do you really want to delete this records? This process cannot be undone" onConfirm={()=> deleteData(deleteId)} onCancel={()=> setShowConfirmation(false)} isLoading={isRequesting} />    
         </div>
     )
 }

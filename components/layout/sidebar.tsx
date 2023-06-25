@@ -73,6 +73,17 @@ export default function Sidebar() {
         },
       ],
     },
+    {
+      name: "Roles",
+      route: "/roles",
+      icon: "user-cog",
+      child: [
+        {
+          name: "All Roles",
+          route: "/roles",
+        },
+      ],
+    },
   ];
 
   const renderChildMenu = (index: number) => {
