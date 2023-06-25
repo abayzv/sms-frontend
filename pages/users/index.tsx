@@ -38,7 +38,7 @@ export default function Users(){
 
     return (
         <div>
-            <Datatable dataForm={dataForm} title="User Data" url="/users" filter={["name","email"]} header={["name","email","role","createdAt", "action"]} />
+            <Datatable dataForm={dataForm} title="User Data" url="/users" filter={["name"]} header={["name","email","role","createdAt", "action"]} />
         </div>
     )
 }
