@@ -104,9 +104,8 @@ export default function Sidebar() {
             <li key={index} className="marker:">
               <Link
                 href={child.route}
-                className={`flex gap-4 items-center text-sm p-4 h-[56px] ${
-                  isColapse ? "justify-center" : "px-7"
-                } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
+                className={`flex gap-4 items-center text-sm p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
+                  } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
               >
                 <span className="text-xs text-gray-300">
                   <Icon name="chevron-right" />
@@ -121,29 +120,6 @@ export default function Sidebar() {
       );
   };
 
-  const renderChilColapseMenu = () => {
-    const childIndex = showChildIndex[0];
-    const childMenu = menu[childIndex]?.child;
-
-    if (!childMenu) return null;
-    if (!isColapse) return null;
-
-    return (
-      <ul className="absolute w-64 top-0 right-0 min-h-screen translate-x-full bg-white">
-        {childMenu.map((child, index) => (
-          <li key={index}>
-            <Link
-              href={child.route}
-              className={`flex gap-4 items-center text-sm p-4 h-[56px] text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 border-b border-gray-200`}
-            >
-              <span>{child.name}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
   const renderMenu = () => {
     return menu.map((item, index) => {
       return (
@@ -151,9 +127,8 @@ export default function Sidebar() {
           <Link
             onClick={(event) => handleClickMenu(event, index, item.route)}
             href={item.route}
-            className={`flex gap-4 items-center text-base p-4 h-[56px] ${
-              isColapse ? "justify-center" : "px-7"
-            } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
+            className={`flex gap-4 items-center text-base p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
+              } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
           >
             <Icon name={item.icon} />
             <span className={`${isColapse ? "hidden" : ""}`}>{item.name}</span>
@@ -180,41 +155,24 @@ export default function Sidebar() {
   return (
     <div
       id="default-sidebar"
-      className={`z-40 h-screen flex flex-col bg-white transition-all ${
-        isColapse ? "w-18" : "w-64"
-      }`}
+      className={`flex flex-col bg-white transition-all mt-16 ${isColapse ? "w-[72px]" : "w-[260px]"
+        }`}
       aria-label="Sidebar"
     >
-      <div
-        className={`flex items-center ${
-          isColapse ? "justify-center" : "justify-between"
-        } relative bg-primary-400 h-[56px] p-9 font-bold text-white`}
-      >
-        <div className={`${isColapse ? "hidden" : ""}`}>Mahesadev</div>
-        <button
-          onClick={() => {
-            handleClickColapse();
-          }}
-          className="text-xl"
-        >
-          <Icon name="menu" />
-        </button>
-      </div>
       <div className="relative bg-white flex-1 flex flex-col dark:bg-gray-800">
         <ul className="font-medium flex flex-col flex-1">
           {renderMenu()}
 
-          <li className="mt-auto p-5">
+          {/* <li className="mt-auto p-5">
             <button
-              className={`flex gap-4 items-center text-base p-4 h-[56px] bg-primary-400 hover:bg-primary-300 rounded-lg ${
-                isColapse ? "justify-center" : "px-7"
-              } text-white`}
-              onClick={()=> signOut()}
+              className={`flex gap-4 items-center text-base p-4 h-[56px] bg-primary-400 hover:bg-primary-300 rounded-lg ${isColapse ? "justify-center" : "px-7"
+                } text-white`}
+              onClick={() => signOut()}
             >
               <Icon name="sign-out" />
               <span className={`${isColapse ? "hidden" : ""}`}>Logout</span>
             </button>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

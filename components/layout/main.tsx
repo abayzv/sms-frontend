@@ -4,18 +4,16 @@ import Header from "./header";
 import Footer from "./footer";
 import Alert from "../alert";
 
-export default function Layout({ children, title = "School Management System" }: { children: React.ReactNode, title?:  string }) {
+export default function Layout({ children, title = "School Management System" }: { children: React.ReactNode, title?: string }) {
   return (
     <>
-      <div className="flex items-start">
+      <div className="flex">
+        <Header title={title} />
         <Sidebar />
-        <div className="w-full max-h-screen overflow-hidden">
-          <Header title={title}  />
-          <div className="p-10 flex flex-col h-screen overflow-y-auto">
-            <Alert />
-            {children}
-            <Footer />  
-          </div>
+        <div className="min-h-[calc(100vh-4rem)] mt-16 w-[calc(100%-260px)] p-10">
+          <Alert />
+          {children}
+          <Footer />
         </div>
       </div>
     </>

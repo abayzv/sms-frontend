@@ -1,11 +1,11 @@
 import Avatar from "../avatar";
 import Icon from "../icon";
 
-export default function Header({title} : {title: string}) {
+export default function Header({ title }: { title: string }) {
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 w-full">
-        <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto p-4 px-10">
+      <nav className="bg-white border-gray-200 dark:bg-gray-900 w-full flex-shrink-0 fixed top-0 left-0 z-50">
+        <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto px-10 h-16">
           <div>{title}</div>
           <div className="border border-gray-200 w-1/2 rounded-lg">
             <input type="text" placeholder="search here" className="border-none outline-none" />
