@@ -44,35 +44,37 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const email: any = credentials?.email;
-        const password: any = credentials?.password;
+        const email: string = req?.body?.email;
+        const password: string = req?.body?.password;
+
+        const loginBody = {
+          email: email,
+          password: password,
+        }
+
+        console.log(loginBody)
 
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-          {
-            email: "super@admin.com",
-            password: "P@ssw0rd",
-          }
-        );
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`, loginBody)
 
-        const user = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        const { data: user } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
           {
             headers: {
-              Authorization: `Bearer ${data.accessToken}`,
+              Authorization: `Bearer ${data.data.accessToken}`,
             },
           }
-        );
+        )
 
         const userData = {
           id: user.data.id,
-          name: user.data.name,
+          firstName: user.data.firstName,
+          lastName: user.data.lastName,
           email: user.data.email,
-          image: user.data.image,
-          roleId: user.data.roleID,
+          roleId: user.data.roleId,
           roleName: user.data.roleName,
-          access_token: data.accessToken,
-          refresh_token: data.refreshToken,
+          access_token: data.data.accessToken,
+          refresh_token: data.data.refreshToken,
         };
 
         if (user) {

@@ -39,10 +39,10 @@ function Auth({ children }: { children: ReactElement }) {
   if (status === "loading") {
     return (
       <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-       className="w-screen h-screen flex items-center justify-center">
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-screen h-screen flex items-center justify-center">
         <Lottie animationData={loading} style={{
           width: "200px",
         }} />

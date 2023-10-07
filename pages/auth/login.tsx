@@ -20,8 +20,8 @@ export default function SignIn({
       {/* <div className="wayang bg-no-repeat fixed top-0 left-0 w-[100%] h-[100%] -z-10 scale-105"></div> */}
       <div className="sm:min-w-[500px] bg-white shadow-md p-10 rounded-md grid gap-5">
         <div className="w-full flex flex-col items-center justify-center">
-          <Image src="https://mahesadev.com/logo-sms.png" width={200} height={200} alt="logo sms" />
-          <div className="mt-3 text-lg font-semibold">System Management School</div>
+          <Image src="https://api-mahestore.mahesadev.com/media-service/assets/dac28e29a5f581746fc9a.png" width={200} height={200} alt="logo sms" className="object-cover object-center w-[200px] h-[70px]" />
+          {/* <div className="mt-3 text-lg font-semibold">MAHESTORE DASHBOARD</div> */}
         </div>
         {error && (
           <div className="text-red-500 text-left bg-red-200 p-3">
@@ -32,10 +32,10 @@ export default function SignIn({
           <form method="post" action="/api/auth/callback/credentials">
             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
             <div className="grid gap-2 mb-3">
-              <label className="text-neutral-500">Email</label> 
+              <label className="text-neutral-500">Email</label>
               <div className="flex border">
                 <div className="flex items-center justify-center p-2 px-3 bg-slate-200">
-                <Icon name="users" />
+                  <Icon name="users" />
                 </div>
                 <input
                   name="email"
@@ -48,8 +48,8 @@ export default function SignIn({
             <div className="grid gap-2 mb-3">
               <label className="text-neutral-500">Password</label>
               <div className="flex border">
-              <div className="flex items-center justify-center p-2 px-3 bg-slate-200">
-                <Icon name="key" />
+                <div className="flex items-center justify-center p-2 px-3 bg-slate-200">
+                  <Icon name="key" />
                 </div>
                 <input
                   name="password"

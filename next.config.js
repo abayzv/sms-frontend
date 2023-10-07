@@ -9,6 +9,10 @@ const nextConfig = {
           {
             hostname: 'mahesadev.com',
             protocol: 'https',
+           },
+           {
+            hostname: 'api-mahestore.mahesadev.com',
+            protocol: 'https',
            }
         ],
       },

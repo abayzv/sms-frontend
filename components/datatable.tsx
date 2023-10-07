@@ -3,7 +3,7 @@ import swr, { useSWRConfig } from "swr"
 import useAxios from "@/lib/useAxios"
 import Pagination from "./pagination"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import  Action from "./tableAction"
+import Action from "./tableAction"
 import FormatDate from "@/utils/formatDate"
 import Icon from "./icon"
 import SideModal from "./sideModal"
@@ -11,11 +11,12 @@ import { useAlertStore } from "../lib/store"
 import { DataForm } from "./sideModal"
 import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
+import { useSession } from "next-auth/react"
 
-const actionDropwdown : Array<DropdownActions> = [
+const actionDropwdown: Array<DropdownActions> = [
 ]
 
-export default function Datatable({ url, filter, header, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title : string, allowCreate?: boolean ,action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
+export default function Datatable({ url, filter, header, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title: string, allowCreate?: boolean, action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [dataPage, setPage] = useState(0)
@@ -26,7 +27,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const [dataFilter, setFilter] = useState<any>(() => {
         const data = {} as any
         filter?.forEach((item) => {
-            if(item === "startDate" || item === "endDate") {
+            if (item === "startDate" || item === "endDate") {
                 data[item] = new Date()
             }
 
@@ -41,6 +42,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const router = useRouter()
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
+    const { data: session } = useSession()
 
     // Form Data
     const [formData, setFormData] = useState({} as any)
@@ -62,7 +64,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     }
 
     const { data, error, isLoading } = swr(url, async (url) => {
-        const res = await axiosAuth.get( url, {
+        const res = await axiosAuth.get(url, {
             params: {
                 page,
                 show,
@@ -92,7 +94,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
     const renderHeader = () => {
 
-        const renderTitle = (name : string) => {
+        const renderTitle = (name: string) => {
             // if name has | then split it then return the second element
             if (name.includes("|")) {
                 const splitName = name.split("|")
@@ -112,14 +114,14 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         // each header element will be the key of the data
         if (isLoading) return <tr><td colSpan={headerElement.length} className="border-b border-gray-200 text-center p-3">Loading...</td></tr>
         if (!data) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
-        
+
         const { dataSet } = data as any
         if (dataSet.length === 0) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
 
         return dataSet.map((item: Array<any>, index: number) => {
             return (
                 <tr key={index} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
-                    <td className="border text-neutral-600 border-gray-200 text-center p-3">{index+1}.</td>
+                    <td className="border text-neutral-600 border-gray-200 text-center p-3">{index + 1}.</td>
                     {headerElement.map((key: any, index) => {
                         // if key has | then split it then return the first element
                         if (key.includes("|")) {
@@ -163,7 +165,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                     {/* Filter Items */}
                     {filter?.map((item, index) => {
 
-                        if(item === "endDate" || item === "startDate") return (
+                        if (item === "endDate" || item === "startDate") return (
                             <div key={index} className="flex flex-col gap-2">
                                 <label htmlFor={item} className="text-sm text-neutral-600">{item.toUpperCase()}</label>
                                 <input name={item} type="date" value={dataFilter[item]} onChange={e => setFilter({ [item]: e.target.value })} className="border border-gray-200 rounded-md text-neutral-600 outline-none p-2" placeholder={item} />
@@ -193,11 +195,11 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         router.push(path)
     }
 
-    const submitCreate = async() => {
+    const submitCreate = async () => {
         try {
             setRequesting(true)
             const res = await axiosAuth.post(url, formData)
-            if(res){
+            if (res) {
                 mutate(url)
                 setFormData({})
                 setFormError([])
@@ -209,17 +211,17 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                 setRequesting(false)
                 setShowModal(false)
             }
-        } catch (error : any) {
+        } catch (error: any) {
             setRequesting(false)
             setFormError(error.response.data.errors)
         }
     }
 
-    const deleteData = async(id: string) => {
+    const deleteData = async (id: string) => {
         try {
             setRequesting(true)
             const res = await axiosAuth.delete(`${url}/${id}`)
-            if(res){
+            if (res) {
                 mutate(url)
                 setAlert({
                     type: "success",
@@ -229,7 +231,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                 setRequesting(false)
                 setShowConfirmation(false)
             }
-        } catch (error : any) {
+        } catch (error: any) {
             setRequesting(false)
             setShowConfirmation(false)
             setAlert({
@@ -241,19 +243,19 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     }
 
     // add delete action
-    action  = [
+    action = [
         ...action,
-        { 
+        {
             name: "Delete",
             route: "/users/delete",
-            action: (id : string) => {
+            action: (id: string) => {
                 setShowConfirmation(true)
                 setDeleteId(id)
             }
         },
     ]
     // End add delete action
-    
+
     useEffect(() => {
         mutate(url)
 
@@ -264,8 +266,8 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         const show = e.target.value
         const params = {} as any
         searchParams?.forEach((value, key) => {
-                params[key] = value
-            }
+            params[key] = value
+        }
         )
         // set new page
         params.show = show
@@ -274,11 +276,16 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     }
     // End Filter
 
+    if (error) {
+        console.log(session)
+        return <div>Error</div>
+    }
+
     return (
         <div className="w-full bg-white p-5 border-b-4 border-primary-300 relative">
             {/* <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span> */}
             {allowCreate && (
-                <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={()=>setShowModal(true)}>+Add {title}</button>
+                <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={() => setShowModal(true)}>+Add {title}</button>
             )}
 
             <div className={`relative mb-5 ${allowCreate && "mt-10"}`}>
@@ -316,27 +323,27 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                     {renderBody()}
                 </tbody>
             </table>
-            <Pagination 
-                totalPage={totalPage} 
+            <Pagination
+                totalPage={totalPage}
                 page={dataPage} />
-            <SideModal 
-                title="Add Data" 
-                dataForm={dataForm} 
-                action={()=>submitCreate()} 
-                isShow={isShowModal} 
-                setShow={setShowModal} 
-                data={formData} 
+            <SideModal
+                title="Add Data"
+                dataForm={dataForm}
+                action={() => submitCreate()}
+                isShow={isShowModal}
+                setShow={setShowModal}
+                data={formData}
                 setData={setFormData}
-                error={formError} 
+                error={formError}
                 isLoading={isRequesting} />
-            <Confirmation 
-                isShow={isShowConfirmation} 
-                icon="exclamation-triangle" 
-                title="Are you sure?" 
-                message="Do you really want to delete this records? This process cannot be undone" 
-                onConfirm={()=> deleteData(deleteId)} 
-                onCancel={()=> setShowConfirmation(false)} 
-                isLoading={isRequesting} />    
+            <Confirmation
+                isShow={isShowConfirmation}
+                icon="exclamation-triangle"
+                title="Are you sure?"
+                message="Do you really want to delete this records? This process cannot be undone"
+                onConfirm={() => deleteData(deleteId)}
+                onCancel={() => setShowConfirmation(false)}
+                isLoading={isRequesting} />
         </div>
     )
 }
