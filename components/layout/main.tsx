@@ -3,6 +3,7 @@ import Sidebar from "./sidebar";
 import Header from "./header";
 import Footer from "./footer";
 import Alert from "../alert";
+import PopUp from "../popup";
 
 export default function Layout({ children, title = "Mahestore" }: { children: React.ReactNode, title?: string }) {
   return (

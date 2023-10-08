@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 
-export default function Pagination({ totalPage, page }:{totalPage: number, page: number}) {
+export default function Pagination({ totalPage, page }: { totalPage: number, page: number }) {
     const [currentPage, setCurrentPage] = useState(page)
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -28,7 +28,7 @@ export default function Pagination({ totalPage, page }:{totalPage: number, page:
             for (let i = 1; i <= totalPage; i++) {
                 dataPage.push(i)
             }
-            return dataPage.map((item,index) => {
+            return dataPage.map((item, index) => {
                 return (
                     <button key={index} onClick={() => {
                         goToPage(item)
@@ -38,23 +38,23 @@ export default function Pagination({ totalPage, page }:{totalPage: number, page:
         }
 
         // if total page more than 5 render paginataion with format 1 2 3 ... 10
-        if(totalPage > 5) {
+        if (totalPage > 5) {
             const dataPage = []
-            if(currentPage <= 3){
+            if (currentPage <= 3) {
                 for (let i = 1; i <= 3; i++) {
                     dataPage.push(i)
                 }
                 dataPage.push("...")
                 dataPage.push(totalPage)
-                return dataPage.map((item,index) => {
+                return dataPage.map((item, index) => {
                     return (
                         <button key={index} onClick={() => {
-                            if(item !== "...") goToPage(+item)
+                            if (item !== "...") goToPage(+item)
                         }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
             }
-            if(currentPage > 3 && currentPage < totalPage - 2){
+            if (currentPage > 3 && currentPage < totalPage - 2) {
                 dataPage.push(1)
                 dataPage.push("...")
                 dataPage.push(currentPage - 1)
@@ -62,24 +62,24 @@ export default function Pagination({ totalPage, page }:{totalPage: number, page:
                 dataPage.push(currentPage + 1)
                 dataPage.push("...")
                 dataPage.push(totalPage)
-                return dataPage.map((item,index) => {
+                return dataPage.map((item, index) => {
                     return (
                         <button key={index} onClick={() => {
-                            if(item !== "...") goToPage(+item)
+                            if (item !== "...") goToPage(+item)
                         }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
             }
-            if(currentPage >= totalPage - 2){
+            if (currentPage >= totalPage - 2) {
                 dataPage.push(1)
                 dataPage.push("...")
                 for (let i = totalPage - 2; i <= totalPage; i++) {
                     dataPage.push(i)
                 }
-                return dataPage.map((item,index) => {
+                return dataPage.map((item, index) => {
                     return (
                         <button key={index} onClick={() => {
-                            if(item !== "...") goToPage(+item)
+                            if (item !== "...") goToPage(+item)
                         }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
@@ -88,23 +88,23 @@ export default function Pagination({ totalPage, page }:{totalPage: number, page:
     }
 
     const nextPage = () => {
-        if(currentPage < totalPage){
+        if (currentPage < totalPage) {
             goToPage(currentPage + 1)
         }
     }
 
     const prevPage = () => {
         // if current page more than 1
-        if(currentPage > 1){
+        if (currentPage > 1) {
             goToPage(currentPage - 1)
         }
     }
 
     return (
-        <div className="flex justify-end gap-5 mt-5">
-            <button onClick={()=>prevPage()} className="bg-primary-100 p-3 rounded-md">Prev</button>
+        <div className="flex justify-end gap-3 mt-5">
+            <button onClick={() => prevPage()} className="bg-slate-900 text-white p-3 rounded-md px-10 hover:bg-slate-700">Prev</button>
             {renderPage()}
-            <button onClick={()=>nextPage()} className="bg-primary-100 p-3 rounded-md">Next</button>
+            <button onClick={() => nextPage()} className="bg-slate-900 text-white p-3 rounded-md px-10 hover:bg-slate-700">Next</button>
         </div>
     )
 }

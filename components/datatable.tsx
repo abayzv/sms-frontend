@@ -105,7 +105,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
         return headerElement.map((item, index) => {
             if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 border p-3 font-semibold">CREATED AT</th>
-            return <th key={index} className="text-center bg-primary-100 p-3 font-semibold border">{renderTitle(item).toUpperCase()}</th>
+            return <th key={index} className="text-center bg-slate-900 text-white p-3 font-semibold border-slate-900">{renderTitle(item).toUpperCase()}</th>
         })
 
     }
@@ -282,13 +282,14 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     }
 
     return (
-        <div className="w-full bg-white p-5 border-b-4 border-primary-300 relative">
+        <div className="w-full bg-white p-5 rounded-xl border-b-4 border-slate-300 relative">
             {/* <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span> */}
-            {allowCreate && (
+            {/* {allowCreate && (
                 <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={() => setShowModal(true)}>+Add {title}</button>
-            )}
+            )} */}
 
-            <div className={`relative mb-5 ${allowCreate && "mt-10"}`}>
+            <div className="relative mb-5">
+                {/* <div className={`relative mb-5 ${allowCreate && "mt-10"}`}> */}
                 <div className="flex justify-between items-end border-b border-gray-200 pb-3 px-5 gap-3">
                     {filter && (
                         <div className="text-lg text-neutral-600 flex gap-5 items-center cursor-pointer" onClick={() => {
@@ -307,7 +308,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                     <button className="p-3 border border-gray-200 text-neutral-600 hover:bg-gray-200 rounded-md" onClick={resetFilter}>
                         <Icon name="refresh" />
                     </button>
-                    <button className="p-2 px-5 text-white rounded-md bg-sky-500 hover:bg-sky-400" onClick={() => search()}>Search</button>
+                    <button className="p-2 px-5 text-white rounded-md bg-slate-900 hover:bg-slate-700" onClick={() => search()}>Search</button>
                 </div>
                 {renderFilter()}
             </div>
@@ -315,7 +316,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
             <table className="w-full">
                 <thead>
                     <tr>
-                        <th className="text-center font-semibold bg-primary-100 p-3 border">No</th>
+                        <th className="text-center font-semibold bg-slate-900 text-white p-3 border-slate-900">No</th>
                         {renderHeader()}
                     </tr>
                 </thead>

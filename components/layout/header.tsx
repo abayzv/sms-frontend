@@ -14,10 +14,10 @@ export default function Header({ title }: { title: string }) {
               <Icon name="menu" color="#3085C3" />
             </div>
           </div>
-          <div className="border border-gray-200 rounded-lg ml-5 overflow-clip">
+          {/* <div className="border border-gray-200 rounded-lg ml-5 overflow-clip">
             <input type="text" placeholder="Search here" className="border-none outline-none w-[500px] p-3 placeholder:text-sm" />
-          </div>
-          <div className="flex gap-3 items-center md:order-2 ml-auto px-5">
+          </div> */}
+          <div className="flex gap-5 items-center md:order-2 ml-auto px-5">
             <button className="text-neutral-500 p-2 rounded-full bg-sky-100 hover:bg-sky-200 relative">
               <Icon name="envelope" color="#3085C3" />
               <span className="absolute bg-red-500 text-xs w-5 h-5 flex items-center justify-center rounded-full -top-2 -right-2 text-white">1</span>

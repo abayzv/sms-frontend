@@ -63,6 +63,16 @@ export default function Sidebar() {
         },
       ],
     },
+    {
+      name: "Dev",
+      route: "/dev",
+      icon: "home",
+    },
+    {
+      name: "Components",
+      route: "/components",
+      icon: "home",
+    },
   ];
 
   const renderChildMenu = (index: number) => {
@@ -73,13 +83,13 @@ export default function Sidebar() {
 
     if (!isColapse)
       return (
-        <ul className=" border-gray-200 bg-sky-50 rounded-xl">
+        <ul>
           {childMenu.map((child, index) => (
             <li key={index} className="marker:">
               <Link
                 href={child.route}
                 className={`flex gap-4 items-center font-normal text-sm p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
-                  } text-sky-500 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
+                  } text-sky-500 dark:text-sky-400`}
               >
                 <span className="text-xs text-gray-300">
                   <Icon name="chevron-right" size={12} color="#3085C3" />
