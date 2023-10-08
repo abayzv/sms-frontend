@@ -2,12 +2,14 @@ import Icon from "../icon";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import { useSidebar } from "@/store/useSidebar";
 import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
-  const [isColapse, setIsColapse] = useState(false);
   const [showChildIndex, setShowChildIndex] = useState<number[]>([]);
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const { menu, isCollapsed } = useSidebar();
 
   const router = useRouter();
   const routerPath = usePathname();
@@ -18,7 +20,6 @@ export default function Sidebar() {
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node)
       ) {
-        setIsColapse(false);
       }
     };
 
@@ -38,7 +39,7 @@ export default function Sidebar() {
     if (showChildIndex.includes(index)) {
       setShowChildIndex(showChildIndex.filter((item) => item !== index));
     } else {
-      if (isColapse) {
+      if (isCollapsed) {
         setShowChildIndex([index]);
       } else {
         setShowChildIndex([...showChildIndex, index]);
@@ -46,45 +47,26 @@ export default function Sidebar() {
     }
   };
 
-  const menu = [
-    {
-      name: "Dashboard",
-      route: "/",
-      icon: "home",
-    },
-    {
-      name: "Products",
-      route: "/users",
-      icon: "users",
-      child: [
-        {
-          name: "All Products",
-          route: "/users",
-        },
-      ],
-    },
-  ];
-
   const renderChildMenu = (index: number) => {
     if (!showChildIndex.includes(index)) return null;
     const childMenu = menu[index].child;
 
     if (!childMenu) return null;
 
-    if (!isColapse)
+    if (!isCollapsed)
       return (
         <ul>
           {childMenu.map((child, index) => (
             <li key={index} className="marker:">
               <Link
                 href={child.route}
-                className={`flex gap-4 items-center font-normal text-sm p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
+                className={`flex gap-4 items-center font-normal text-sm p-4 h-[56px] ${isCollapsed ? "justify-center" : "px-7"
                   } text-sky-500 dark:text-sky-400`}
               >
                 <span className="text-xs text-gray-300">
                   <Icon name="chevron-right" size={12} color="#3085C3" />
                 </span>
-                <span className={`${isColapse ? "hidden" : ""}`}>
+                <span className={`${isCollapsed ? "hidden" : ""}`}>
                   {child.name}
                 </span>
               </Link>
@@ -106,14 +88,14 @@ export default function Sidebar() {
           <Link
             onClick={(event) => handleClickMenu(event, index, item.route)}
             href={item.route}
-            className={`flex gap-4 items-center font-normal p-3 rounded-xl  ${isActive(item.route)} ${isColapse ? "justify-center" : "px-7"
+            className={`flex gap-4 items-center font-normal p-3 rounded-xl  ${isActive(item.route)} ${isCollapsed ? "justify-center" : "px-7"
               } text-gray-500 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
           >
-            <Icon name={item.icon} color="#3085C3" />
-            <span className={`${isColapse ? "hidden" : ""}`}>{item.name}</span>
+            <Icon name={item.icon} size={20} color="#3085C3" />
+            <span className={`${isCollapsed ? "hidden" : ""}`}>{item.name}</span>
             {item.child && (
               <span
-                className={`${isColapse ? "hidden" : ""} text-gray-300 ml-auto`}
+                className={`${isCollapsed ? "hidden" : ""} text-gray-300 ml-auto`}
               >
                 <Icon
                   name={
@@ -136,7 +118,7 @@ export default function Sidebar() {
   return (
     <div
       id="default-sidebar"
-      className={`flex flex-col bg-white transition-all mt-20 ${isColapse ? "w-[72px]" : "w-[260px]"
+      className={`flex flex-col bg-white transition-all mt-20 ${isCollapsed ? "w-[72px]" : "w-[260px]"
         }`}
       aria-label="Sidebar"
     >

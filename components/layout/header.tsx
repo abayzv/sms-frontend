@@ -1,8 +1,16 @@
 import Image from "next/image";
 import Avatar from "../avatar";
 import Icon from "../icon";
+import { useSidebar } from "@/store/useSidebar";
 
 export default function Header({ title }: { title: string }) {
+  const { collapse, expand, isCollapsed } = useSidebar();
+
+  const handleCollapse = () => {
+    if (isCollapsed) expand();
+    else collapse();
+  }
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 w-full flex-shrink-0 fixed top-0 left-0 z-50">
@@ -10,9 +18,9 @@ export default function Header({ title }: { title: string }) {
           <div className="w-[260px] px-5 flex items-center justify-between">
             <Image src="https://api-mahestore.mahesadev.com/media-service/assets/dac28e29a5f581746fc9a.png" width={200} height={200} alt="logo sms" className="object-cover object-center w-[120px] h-[50px]" />
             {/* <div className="font-bold uppercase">{title}</div> */}
-            <div className="p-4 bg-sky-100 rounded">
+            <button className="p-3 bg-sky-100 hover:bg-sky-200 rounded-xl" onClick={handleCollapse}>
               <Icon name="menu" color="#3085C3" />
-            </div>
+            </button>
           </div>
           {/* <div className="border border-gray-200 rounded-lg ml-5 overflow-clip">
             <input type="text" placeholder="Search here" className="border-none outline-none w-[500px] p-3 placeholder:text-sm" />
