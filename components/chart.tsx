@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function MyChart(){
+export default function MyChart({ type = "line" }: { type?: any }) {
     const options = {
         chart: {
             id: "basic-bar"
@@ -22,5 +22,5 @@ export default function MyChart(){
         }
     ]
 
-    return <ApexCharts options={options} series={series} type="line" />
+    return <ApexCharts options={options} series={series} type={type} />
 }

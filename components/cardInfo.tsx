@@ -1,26 +1,42 @@
 import Icon from "./icon";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 
-export default function CardInfo({icon, name, number, className = "bg-white"} : {icon: string, name: string, number: number, className?: string}){
+export default function CardInfo({ icon, name, values, className = "bg-white", iconColor = "black", variant = "style-1" }: { icon: string, name: string, values: string, className?: string, iconColor?: string, variant?: string }) {
 
-    return(
+    const variants = (variant: string) => {
+        switch (variant) {
+            case "style-2":
+                return (
+                    <>
+                        <div className="w-[150px] h-[150px] bg-black rounded-full bg-opacity-10 absolute -top-16 right-10" />
+                        <div className="w-[200px] h-[200px] bg-black rounded-full bg-opacity-10 absolute -top-20 -right-16" />
+                        <div className="w-[150px] h-[150px] bg-black rounded-full bg-opacity-10 absolute -bottom-16 -left-4" />
+                    </>
+                )
+            case "style-1":
+                return (
+                    <>
+                        <div className="w-[150px] h-[150px] bg-white rounded-full bg-opacity-10 absolute -top-16 -right-16" />
+                        <div className="w-[150px] h-[150px] bg-white rounded-full bg-opacity-10 absolute top-0 -right-16" />
+                        <div className="w-[150px] h-[150px] bg-white rounded-full bg-opacity-10 absolute top-0 -right-16" />
+                    </>
+                )
+        }
+
+    }
+
+    return (
         <motion.div
-        // whileHover={{ scale: 1.05, borderBottomColor: "#bfe6ff" }}
-        // transition={{ duration: 0.2 }}
-        className={`p-7 border border-gray-200 border-b-4 border-b-primary-300 flex justify-between gap-3 ${className}`}>
-            <div className="flex items-center justify-center gap-2 flex-col w-1/2">
+            className={`${className} p-5 rounded-xl relative overflow-clip`}>
+            <div className="flex items-start justify-center gap-2 flex-col">
                 <motion.div
-                // whileHover={{ scale: 1.3 }}
-                className="text-2xl text-gray-500 bg-gray-200 p-5 rounded-full">
-                    <Icon name={icon} />
+                    className="text-2xl text-gray-500 bg-black bg-opacity-20 p-4 rounded-full">
+                    <Icon name={icon} color={iconColor} size={20} />
                 </motion.div>
-                <div>{name}</div>
+                <div className="text-4xl font-bold">{values}</div>
+                <div className="font-semibold opacity-70">{name}</div>
+                {variants(variant)}
             </div>
-            <motion.div
-            // whileHover={{ scale: 1.05, color: "#00a3ff" }}
-            className="flex items-center justify-center gap-5 w-1/2 text-5xl text-gray-500 font-bold">
-                {number}
-            </motion.div>
         </motion.div>
     )
 }
