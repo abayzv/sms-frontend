@@ -63,16 +63,6 @@ export default function Sidebar() {
         },
       ],
     },
-    {
-      name: "Dev",
-      route: "/dev",
-      icon: "home",
-    },
-    {
-      name: "Components",
-      route: "/components",
-      icon: "home",
-    },
   ];
 
   const renderChildMenu = (index: number) => {

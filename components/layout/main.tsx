@@ -4,8 +4,12 @@ import Header from "./header";
 import Footer from "./footer";
 import Alert from "../alert";
 import PopUp from "../popup";
+import { GoAlert } from "react-icons/go";
+import { usePopup } from "@/store/usePopup";
 
 export default function Layout({ children, title = "Mahestore" }: { children: React.ReactNode, title?: string }) {
+  const { message } = usePopup();
+
   return (
     <>
       <div className="flex bg-white">
@@ -13,6 +17,14 @@ export default function Layout({ children, title = "Mahestore" }: { children: Re
         <Sidebar />
         <div className="min-h-[calc(100vh-4rem)] mt-20 w-[calc(100%-260px)] p-10 rounded-tl-xl rounded-tr-xl bg-neutral-100">
           <Alert />
+          <PopUp showButton={false} trigger="">
+            <div className="w-full flex flex-col items-center">
+              <GoAlert size={42} color="#3085C3" />
+              <p className="w-2/3 text-center mt-5 text-gray-500">
+                {message}
+              </p>
+            </div>
+          </PopUp>
           {children}
           <Footer />
         </div>
