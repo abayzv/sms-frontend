@@ -1,6 +1,6 @@
 import Icon from "../icon";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { signOut } from "next-auth/react";
 
@@ -10,6 +10,7 @@ export default function Sidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
+  const routerPath = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,17 +46,6 @@ export default function Sidebar() {
     }
   };
 
-  const handleClickColapse = () => {
-    // if colapse false, hide child menu
-    if (!isColapse) {
-      setIsColapse(true);
-      setShowChildIndex([]);
-    } else {
-      setIsColapse(false);
-      setShowChildIndex([]);
-    }
-  };
-
   const menu = [
     {
       name: "Dashboard",
@@ -63,31 +53,15 @@ export default function Sidebar() {
       icon: "home",
     },
     {
-      name: "Users",
+      name: "Products",
       route: "/users",
       icon: "users",
       child: [
         {
-          name: "All Users",
+          name: "All Products",
           route: "/users",
         },
       ],
-    },
-    {
-      name: "Roles",
-      route: "/roles",
-      icon: "user-cog",
-      child: [
-        {
-          name: "All Roles",
-          route: "/roles",
-        },
-      ],
-    },
-    {
-      name: "Logs",
-      route: "/logs",
-      icon: "history",
     },
   ];
 
@@ -99,16 +73,16 @@ export default function Sidebar() {
 
     if (!isColapse)
       return (
-        <ul className=" border-gray-200 bg-gray-50">
+        <ul className=" border-gray-200 bg-sky-50 rounded-xl">
           {childMenu.map((child, index) => (
             <li key={index} className="marker:">
               <Link
                 href={child.route}
-                className={`flex gap-4 items-center text-sm p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
-                  } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
+                className={`flex gap-4 items-center font-normal text-sm p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
+                  } text-sky-500 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
               >
                 <span className="text-xs text-gray-300">
-                  <Icon name="chevron-right" />
+                  <Icon name="chevron-right" size={12} color="#3085C3" />
                 </span>
                 <span className={`${isColapse ? "hidden" : ""}`}>
                   {child.name}
@@ -121,16 +95,21 @@ export default function Sidebar() {
   };
 
   const renderMenu = () => {
+
+    function isActive(pathname: string) {
+      return pathname === routerPath ? 'font-semibold bg-sky-100 text-[#3085C3]' : ''
+    }
+
     return menu.map((item, index) => {
       return (
-        <li key={index}>
+        <li key={index} className="px-4 py-1">
           <Link
             onClick={(event) => handleClickMenu(event, index, item.route)}
             href={item.route}
-            className={`flex gap-4 items-center text-base p-4 h-[56px] ${isColapse ? "justify-center" : "px-7"
-              } text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700`}
+            className={`flex gap-4 items-center font-normal p-3 rounded-xl  ${isActive(item.route)} ${isColapse ? "justify-center" : "px-7"
+              } text-gray-500 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
           >
-            <Icon name={item.icon} />
+            <Icon name={item.icon} color="#3085C3" />
             <span className={`${isColapse ? "hidden" : ""}`}>{item.name}</span>
             {item.child && (
               <span
@@ -142,6 +121,8 @@ export default function Sidebar() {
                       ? "chevron-down"
                       : "chevron-right"
                   }
+                  size={12}
+                  color="#3085C3"
                 />
               </span>
             )}
@@ -155,7 +136,7 @@ export default function Sidebar() {
   return (
     <div
       id="default-sidebar"
-      className={`flex flex-col bg-white transition-all mt-16 ${isColapse ? "w-[72px]" : "w-[260px]"
+      className={`flex flex-col bg-white transition-all mt-20 ${isColapse ? "w-[72px]" : "w-[260px]"
         }`}
       aria-label="Sidebar"
     >

@@ -1,65 +1,65 @@
-import { 
-    FaHouseUser, 
-    FaUser, 
-    FaBars, 
-    FaChevronRight, 
-    FaChevronDown, 
-    FaEnvelope, 
-    FaBell, 
-    FaSignOutAlt, 
-    FaKey, 
-    FaRedoAlt, 
-    FaCheckCircle, 
-    FaTimes, 
-    FaTimesCircle, 
-    FaExclamationTriangle, 
+import {
+    FaHouseUser,
+    FaUser,
+    FaBars,
+    FaChevronRight,
+    FaChevronDown,
+    FaEnvelope,
+    FaBell,
+    FaSignOutAlt,
+    FaKey,
+    FaRedoAlt,
+    FaCheckCircle,
+    FaTimes,
+    FaTimesCircle,
+    FaExclamationTriangle,
     FaUserCog,
     FaHistory
- } from "react-icons/fa";
+} from "react-icons/fa";
 
-export default function Icon({ name = "" }: { name?: string }) {
+export default function Icon({ name = "", color = "black", style = {}, className = "", size = 16 }: { name?: string, color?: string, style?: React.CSSProperties, className?: string, size?: number }) {
 
-    const renderIcon = (name: string) => {
+    const renderIcon = (name: string, props: { color: string, style: React.CSSProperties, className: string, size: number }) => {
         switch (name) {
             case "home":
-                return <FaHouseUser />
+                return <FaHouseUser {...props} />
             case "users":
-                return <FaUser />
+                return <FaUser {...props} />
             case "menu":
-                return <FaBars />
+                return <FaBars {...props} />
             case "chevron-right":
-                return <FaChevronRight />
+                return <FaChevronRight {...props} />
             case "chevron-down":
-                return <FaChevronDown />
+                return <FaChevronDown {...props} />
             case "envelope":
-                return <FaEnvelope />
+                return <FaEnvelope {...props} />
             case "bell":
-                return <FaBell />
+                return <FaBell {...props} />
             case "sign-out":
-                return <FaSignOutAlt />
-            case "refresh" :
-                return <FaRedoAlt />
+                return <FaSignOutAlt {...props} />
+            case "refresh":
+                return <FaRedoAlt {...props} />
             case "key":
-                return <FaKey />
+                return <FaKey {...props} />
             case "check":
-                return <FaCheckCircle />
+                return <FaCheckCircle {...props} />
             case "times":
-                return <FaTimes />
+                return <FaTimes {...props} />
             case "times-circle":
-                return <FaTimesCircle />
+                return <FaTimesCircle {...props} />
             case "exclamation-triangle":
-                return <FaExclamationTriangle />
+                return <FaExclamationTriangle  {...props} />
             case "user-cog":
-                return <FaUserCog />
+                return <FaUserCog  {...props} />
             case "history":
-                return <FaHistory />
+                return <FaHistory {...props} />
 
         }
     }
 
     return (
         <>
-            {renderIcon(name)}
+            {renderIcon(name, { color, style, className, size })}
         </>
     )
 }

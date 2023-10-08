@@ -9,7 +9,7 @@ export const useRefreshToken = () => {
 
   const refreshToken = async () => {
     try {
-      const res = await axios.post("/auth/refreshToken", {
+      const res = await axios.post("/auth/refresh-token", {
         // @ts-ignore
         refreshToken: session.user.refresh_token,
       });
