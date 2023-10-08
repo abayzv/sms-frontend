@@ -147,6 +147,13 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                             </td>
                         )
                         if (key === "createdAt") return <td key={index} className="border text-neutral-600 border-gray-200 text-end p-3">{FormatDate(item[key])}</td>
+
+                        if (["media_url", "image_url", "picture_url"].includes(key)) return (
+                            <td key={index} className="border text-neutral-600 border-gray-200 p-3">
+                                <img src={item[key]} alt="" className="w-20 h-20 object-cover object-center border rounded-xl" />
+                            </td>
+                        )
+
                         return <td key={index} className="border text-neutral-600 border-gray-200 p-3">{item[key]}</td>
                     })}
                 </tr>

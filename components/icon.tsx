@@ -19,6 +19,7 @@ import {
 
 import { BsBoxSeam } from "react-icons/bs";
 import { RxDashboard } from 'react-icons/rx'
+import { IoStorefrontOutline } from 'react-icons/io5'
 
 export default function Icon({ name = "", color = "black", style = {}, className = "", size = 16 }: { name?: string, color?: string, style?: React.CSSProperties, className?: string, size?: number }) {
 
@@ -60,6 +61,8 @@ export default function Icon({ name = "", color = "black", style = {}, className
                 return <BsBoxSeam {...props} />
             case "dashboard":
                 return <RxDashboard {...props} />
+            case "store":
+                return <IoStorefrontOutline {...props} />
 
         }
     }

@@ -61,7 +61,7 @@ export default function Sidebar() {
 
     if (!isCollapsed)
       return (
-        <ul className="list-disc list-inside border-l border-l-gray-200 ml-5">
+        <ul className="list-disc list-inside border-l border-l-gray-200 ml-9 text-sm">
           {childMenu.map((child, index) => (
             <li key={index} className={`marker:text-indigo-500 -ml-3 p-2 font-normal ${isActive(child.route)}`}>
               <Link
@@ -78,7 +78,7 @@ export default function Sidebar() {
   const renderMenu = () => {
 
     function isActive(pathname: string) {
-      return pathname === routerPath ? 'font-semibold bg-sky-100 text-[#3085C3]' : ''
+      return routerPath?.split('/')[1] === pathname.replace('/', '') ? 'font-semibold bg-sky-100 text-[#3085C3]' : ''
     }
 
     return menu.map((item, index) => {
@@ -117,12 +117,11 @@ export default function Sidebar() {
   return (
     <div
       id="default-sidebar"
-      className={`flex flex-col bg-white transition-all mt-20 ${isCollapsed ? "w-[72px]" : "w-[260px]"
-        }`}
+      className={`flex flex-col bg-white transition-all mt-20 ${isCollapsed ? "w-[78px]" : "w-[260px]"}`}
       aria-label="Sidebar"
     >
       <div className="relative bg-white flex-1 flex flex-col dark:bg-gray-800">
-        <ul className="font-medium flex flex-col flex-1">
+        <ul className="font-medium flex flex-col flex-1 mt-10">
           {renderMenu()}
         </ul>
       </div>

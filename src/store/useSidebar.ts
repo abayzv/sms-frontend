@@ -35,6 +35,21 @@ const menu: Menu[] = [
             },
         ],
     },
+    {
+        name: "Stores",
+        route: "/stores",
+        icon: "store",
+        child: [
+            {
+                name: "Official Stores",
+                route: "/stores/official-stores",
+            },
+            {
+                name: "Official Content",
+                route: "/stores/official-content",
+            },
+        ],
+    },
 ];
 
 export const useSidebar = create<SidebarState>()(
