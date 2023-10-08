@@ -2,14 +2,15 @@ import Icon from "../icon";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { useSidebar } from "@/store/useSidebar";
+import { useMenu, useSidebar } from "@/store/useSidebar";
 import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
   const [showChildIndex, setShowChildIndex] = useState<number[]>([]);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const { menu, isCollapsed } = useSidebar();
+  const { isCollapsed } = useSidebar();
+  const { menu } = useMenu();
 
   const router = useRouter();
   const routerPath = usePathname();
@@ -48,6 +49,11 @@ export default function Sidebar() {
   };
 
   const renderChildMenu = (index: number) => {
+    function isActive(pathname: string) {
+      return pathname === routerPath ? 'font-semibold text-[#3085C3] marker:text-lg' : 'text-slate-600'
+    }
+
+
     if (!showChildIndex.includes(index)) return null;
     const childMenu = menu[index].child;
 
@@ -55,20 +61,13 @@ export default function Sidebar() {
 
     if (!isCollapsed)
       return (
-        <ul>
+        <ul className="list-disc list-inside border-l border-l-gray-200 ml-5">
           {childMenu.map((child, index) => (
-            <li key={index} className="marker:">
+            <li key={index} className={`marker:text-indigo-500 -ml-3 p-2 font-normal ${isActive(child.route)}`}>
               <Link
                 href={child.route}
-                className={`flex gap-4 items-center font-normal text-sm p-4 h-[56px] ${isCollapsed ? "justify-center" : "px-7"
-                  } text-sky-500 dark:text-sky-400`}
               >
-                <span className="text-xs text-gray-300">
-                  <Icon name="chevron-right" size={12} color="#3085C3" />
-                </span>
-                <span className={`${isCollapsed ? "hidden" : ""}`}>
-                  {child.name}
-                </span>
+                {child.name}
               </Link>
             </li>
           ))}
@@ -89,10 +88,10 @@ export default function Sidebar() {
             onClick={(event) => handleClickMenu(event, index, item.route)}
             href={item.route}
             className={`flex gap-4 items-center font-normal p-3 rounded-xl  ${isActive(item.route)} ${isCollapsed ? "justify-center" : "px-7"
-              } text-gray-500 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
+              } text-slate-600 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
           >
             <Icon name={item.icon} size={20} color="#3085C3" />
-            <span className={`${isCollapsed ? "hidden" : ""}`}>{item.name}</span>
+            <span className={`${isCollapsed ? "hidden" : ""} ${isActive(item.route)}`}>{item.name}</span>
             {item.child && (
               <span
                 className={`${isCollapsed ? "hidden" : ""} text-gray-300 ml-auto`}
@@ -109,7 +108,7 @@ export default function Sidebar() {
               </span>
             )}
           </Link>
-          {renderChildMenu(index)}
+          {isCollapsed ? null : renderChildMenu(index)}
         </li>
       );
     });
@@ -125,17 +124,6 @@ export default function Sidebar() {
       <div className="relative bg-white flex-1 flex flex-col dark:bg-gray-800">
         <ul className="font-medium flex flex-col flex-1">
           {renderMenu()}
-
-          {/* <li className="mt-auto p-5">
-            <button
-              className={`flex gap-4 items-center text-base p-4 h-[56px] bg-primary-400 hover:bg-primary-300 rounded-lg ${isColapse ? "justify-center" : "px-7"
-                } text-white`}
-              onClick={() => signOut()}
-            >
-              <Icon name="sign-out" />
-              <span className={`${isColapse ? "hidden" : ""}`}>Logout</span>
-            </button>
-          </li> */}
         </ul>
       </div>
     </div>

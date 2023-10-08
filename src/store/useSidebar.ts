@@ -9,26 +9,29 @@ interface Menu {
 }
 
 interface SidebarState {
-    menu: Menu[]
     isCollapsed: boolean
     collapse: () => void
     expand: () => void
+}
+
+interface MenuState {
+    menu: Menu[]
 }
 
 const menu: Menu[] = [
     {
         name: "Dashboard",
         route: "/",
-        icon: "home",
+        icon: "dashboard",
     },
     {
         name: "Products",
-        route: "/users",
-        icon: "users",
+        route: "/products",
+        icon: "box",
         child: [
             {
                 name: "All Products",
-                route: "/users",
+                route: "/products",
             },
         ],
     },
@@ -38,7 +41,6 @@ export const useSidebar = create<SidebarState>()(
     devtools(
         persist(
             (set) => ({
-                menu: menu,
                 isCollapsed: false,
                 collapse: () => set({ isCollapsed: true }),
                 expand: () => set({ isCollapsed: false }),
@@ -49,3 +51,7 @@ export const useSidebar = create<SidebarState>()(
         )
     )
 )
+
+export const useMenu = create<MenuState>(() => ({
+    menu
+}))

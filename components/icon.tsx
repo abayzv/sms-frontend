@@ -17,6 +17,9 @@ import {
     FaHistory
 } from "react-icons/fa";
 
+import { BsBoxSeam } from "react-icons/bs";
+import { RxDashboard } from 'react-icons/rx'
+
 export default function Icon({ name = "", color = "black", style = {}, className = "", size = 16 }: { name?: string, color?: string, style?: React.CSSProperties, className?: string, size?: number }) {
 
     const renderIcon = (name: string, props: { color: string, style: React.CSSProperties, className: string, size: number }) => {
@@ -53,6 +56,10 @@ export default function Icon({ name = "", color = "black", style = {}, className
                 return <FaUserCog  {...props} />
             case "history":
                 return <FaHistory {...props} />
+            case "box":
+                return <BsBoxSeam {...props} />
+            case "dashboard":
+                return <RxDashboard {...props} />
 
         }
     }
