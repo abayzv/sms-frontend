@@ -16,19 +16,18 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        // skyblue color scheme
         primary: {
-          50: "#f2faff",
-          100: "#e6f5ff",
-          200: "#bfe6ff",
-          300: "#99d6ff",
-          400: "#4dbaff",
-          500: "#00a3ff",
-          600: "#0092e6",
-          700: "#007abf",
-          800: "#006299",
-          900: "#004d7d",
-        }
+          50: "#f0f7fc",
+          100: "#d9ebfa",
+          200: "#aed0f4",
+          300: "#7eafd0",
+          400: "#578db0",
+          500: "#3085c3",
+          600: "#2a78ad",
+          700: "#246297",
+          800: "#1e5481",
+          900: "#17456b",
+        },
       }
     },
   },

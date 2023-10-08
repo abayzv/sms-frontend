@@ -50,7 +50,7 @@ export default function Sidebar() {
 
   const renderChildMenu = (index: number) => {
     function isActive(pathname: string) {
-      return pathname === routerPath ? 'font-semibold text-[#3085C3] marker:text-lg' : 'text-slate-600'
+      return pathname === routerPath ? 'font-semibold text-primary-500 marker:text-lg' : 'text-slate-600'
     }
 
 

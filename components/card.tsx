@@ -8,13 +8,15 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ children, title, className }) => {
     return (
-        <div className={`${className} bg-white p-5 rounded-xl`}>
+        <div className={`${className} bg-white rounded-xl`}>
             {title && (
-                <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center justify-between border-b border-slate-300 p-5">
                     <div className="font-semibold text-neutral-700">{title}</div>
                 </div>
             )}
-            {children}
+            <div className='p-5'>
+                {children}
+            </div>
         </div>
     );
 };

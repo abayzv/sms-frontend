@@ -1,11 +1,13 @@
 import "../src/app/globals.css"
 import "../src/app/style.css"
 import loading from "./loading.json"
+import { QueryClient, QueryClientProvider } from "react-query"
 import { SessionProvider, useSession } from "next-auth/react"
 import { ReactElement } from "react"
 import Layout from "../components/layout/main"
 import Lottie from "lottie-react"
 import { motion, AnimatePresence } from "framer-motion"
+
 
 export default function App({
   Component,
@@ -25,7 +27,9 @@ export default function App({
           </Layout>
         </Auth>
       ) : (
-        <Component {...pageProps} />
+        <QueryClientProvider client={new QueryClient()}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
       )}
     </SessionProvider>
   )

@@ -21,7 +21,7 @@ const PopUp: React.FC<PopUpProps> = ({ trigger, children, showButton = true }) =
                     <div className="bg-white p-5 py-10 rounded-xl min-w-[500px]">
                         {children}
                         <div className="text-center">
-                            <button onClick={close} className="mt-5 bg-[#3085C3] text-white px-5 py-2 rounded-xl">Ok</button>
+                            <button onClick={close} className="mt-5 bg-primary-500 text-white px-5 py-2 rounded-xl">Ok</button>
                         </div>
                     </div>
                 </div>
