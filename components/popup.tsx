@@ -27,7 +27,6 @@ const PopUp: React.FC<PopUpProps> = ({ trigger, children, showButton = true }) =
                             <button onClick={togglePopUp} className="mt-5 bg-[#3085C3] text-white px-5 py-2 rounded-xl">Ok</button>
                         </div>
                     </div>
-
                 </div>
             )}
         </>

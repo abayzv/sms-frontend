@@ -12,14 +12,20 @@ export const useRefreshToken = () => {
       const res = await axios.post("/auth/refresh-token", {
         // @ts-ignore
         refreshToken: session.user.refresh_token,
-      });
+      },
+        {
+          headers: {
+            "Authorization": `Bearer ${session?.user.access_token}`,
+          },
+        }
+      );
 
       if (session) {
         update({
           user: {
             ...session.user,
-            access_token: res.data.accessToken,
-            refresh_token: res.data.refreshToken,
+            access_token: res.data.data.token,
+            refresh_token: res.data.data.refreshToken,
           },
         });
       }
