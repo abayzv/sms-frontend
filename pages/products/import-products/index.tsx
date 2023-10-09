@@ -1,24 +1,12 @@
 import Card from "../../../components/card";
 import Layout from "../../../components/layout/main";
-import { IFormInput } from "@/types/form";
 import FormHook from "../../../components/form-hook";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-interface ICategories {
-    name: string;
-    slug: string;
-}
-
-interface ICategoriesProps { storeId: string, setCategory: (slug: string) => void }
-
-interface IProducts {
-    name: string;
-    image: string;
-    price: number;
-}
-
-interface IProductsProps { storeId: string, categorySlug: string }
+import { ICategories, ICategoriesProps } from "@/types/category";
+import { IProducts, IProductsProps } from "@/types/product";
+import { IFormInput } from "@/types/form";
+import { IPlatforms, IPlatformsProps } from "@/types/platforms";
 
 
 const Categories = ({ storeId, setCategory }: ICategoriesProps) => {
@@ -165,19 +153,67 @@ const Products = ({ storeId, categorySlug }: IProductsProps) => {
 
 }
 
+const Platforms = ({ data, onSelect, selectedPlatform }: IPlatformsProps) => {
+    const isSelected = (index: number) => {
+        if (index === selectedPlatform) {
+            return "border-primary-500 bg-primary-50 text-primary-500"
+        } else {
+            return "border-slate-300 bg-slate-50"
+        }
+    }
+
+    return (
+        <div className="p-2">
+            <p className="text-slate-600">Select Platform</p>
+            <div className="grid grid-cols-3 gap-2 my-2">
+                {data.map((item, index) => {
+                    return (
+                        <button key={index} title={item.name} disabled={item.disabled} onClick={() => onSelect(index)} className={`cursor-pointer flex items-center justify-center bg-white rounded-xl p-5 border disabled:grayscale ${isSelected(index)}`}>
+                            <img src={item.image} className="w-14 h-14 object-contain" />
+                        </button>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
 
 export default function ScrapeTokopedia() {
     const [storeId, setStoreId] = useState<string>("")
     const [categorySlug, setCategorySlug] = useState<string>("")
+    const [selectedPlatform, setSelectedPlatform] = useState<number>(0)
+
+    const platforms: IPlatforms[] = [
+        {
+            name: "Tokopedia",
+            image: "https://4.bp.blogspot.com/-VGr7kKhpibQ/YYtxvLOGH8I/AAAAAAAASvs/60b31jcrE9IuQZJ6KIjMNdO1ym7fezInACLcBGAsYHQ/s256/logo%2Blogo%2Btokopedia%2Bputih.png"
+        },
+        {
+            name: "Shopee",
+            image: "https://4.bp.blogspot.com/-ZfTcHpuYnws/YYzYspsZlgI/AAAAAAAASx0/uo-2qi4dvwsdNM8T8UbV1YRl2mU4udlqACLcBGAsYHQ/s256/mentahan%2Blogo%2Bshopee.png",
+            disabled: true
+        },
+        {
+            name: "Google Sheet",
+            image: "https://cdn-icons-png.flaticon.com/256/2965/2965327.png",
+            disabled: true
+        }
+    ]
 
     const onSubmit = (data: IFormInput) => {
         setStoreId(data.storeId)
     };
 
+    const handleSelectPlatform = (index: number) => {
+        setSelectedPlatform(index)
+    }
+
     return (
         <Layout>
             <div className="grid grid-cols-2 gap-5">
-                <Card title="Scrape Product from Tokopedia">
+                <Card title="Imports Product">
+                    <Platforms data={platforms} selectedPlatform={selectedPlatform} onSelect={(index) => handleSelectPlatform(index)} />
                     <FormHook data={[
                         {
                             name: "storeId",

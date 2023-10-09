@@ -34,8 +34,8 @@ const menu: Menu[] = [
                 route: "/products",
             },
             {
-                name: "Scrape Tokopedia",
-                route: "/products/scrape-tokopedia",
+                name: "Imports Products",
+                route: "/products/import-products",
             },
         ],
     },

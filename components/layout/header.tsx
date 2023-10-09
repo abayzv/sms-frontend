@@ -19,7 +19,7 @@ export default function Header({ title }: { title: string }) {
             <Image src="https://api-mahestore.mahesadev.com/media-service/assets/dac28e29a5f581746fc9a.png" width={200} height={200} alt="logo sms" className="object-cover object-center w-[150px] h-[70px]" />
             {/* <div className="font-bold uppercase">{title}</div> */}
           </div>
-          <button className="p-3 bg-sky-100 hover:bg-sky-200 rounded-xl ml-10" onClick={handleCollapse}>
+          <button className="p-3 bg-sky-100 hover:bg-sky-200 rounded-xl ml-2" onClick={handleCollapse}>
             <Icon name="menu" color="#3085C3" />
           </button>
           {/* <div className="border border-gray-200 rounded-lg ml-5 overflow-clip">

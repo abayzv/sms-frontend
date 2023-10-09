@@ -15,7 +15,7 @@ export default function Layout({ children, title = "Mahestore" }: { children: Re
       <div className="flex bg-white">
         <Header title={title} />
         <Sidebar />
-        <div className="min-h-[calc(100vh-4rem)] mt-20 w-full p-10 rounded-tl-xl rounded-tr-xl bg-neutral-100">
+        <div className="min-h-[calc(100vh-5rem)] mt-20 w-full p-10 rounded-tl-xl rounded-tr-xl bg-neutral-100">
           <Alert />
           <PopUp showButton={false} trigger="">
             <div className="w-full flex flex-col items-center">
