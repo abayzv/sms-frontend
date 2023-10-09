@@ -12,6 +12,7 @@ import { DataForm } from "./sideModal"
 import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
 import { useSession } from "next-auth/react"
+import { MdOutlineFilterList } from "react-icons/md"
 
 const actionDropwdown: Array<DropdownActions> = [
 ]
@@ -105,7 +106,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
         return headerElement.map((item, index) => {
             if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 border p-3 font-semibold">CREATED AT</th>
-            return <th key={index} className="text-center bg-slate-900 text-white p-3 font-semibold border-slate-900">{renderTitle(item).toUpperCase()}</th>
+            return <th key={index} className="text-center bg-primary-500 text-white p-3 font-semibold border-primary-500">{renderTitle(item).toUpperCase()}</th>
         })
 
     }
@@ -132,7 +133,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                         if (key === "action") return (
                             <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
                                 {/* @ts-ignore */}
-                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item.id} />
+                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item._id} />
                             </td>
                         )
                         if (key === "role") return (
@@ -249,20 +250,6 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         }
     }
 
-    // add delete action
-    action = [
-        ...action,
-        {
-            name: "Delete",
-            route: "/users/delete",
-            action: (id: string) => {
-                setShowConfirmation(true)
-                setDeleteId(id)
-            }
-        },
-    ]
-    // End add delete action
-
     useEffect(() => {
         mutate(url)
 
@@ -315,7 +302,8 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                     <button className="p-3 border border-gray-200 text-neutral-600 hover:bg-gray-200 rounded-md" onClick={resetFilter}>
                         <Icon name="refresh" />
                     </button>
-                    <button className="p-2 px-5 text-white rounded-md bg-slate-900 hover:bg-slate-700" onClick={() => search()}>Search</button>
+                    <button className="p-2 px-5 text-white rounded-md bg-primary-500 hover:bg-slate-700" onClick={() => search()}>Search</button>
+                    <button className="p-2 px-5 text-white rounded-md bg-primary-500 hover:bg-slate-700"><MdOutlineFilterList size={24} /></button>
                 </div>
                 {renderFilter()}
             </div>
@@ -323,7 +311,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
             <table className="w-full">
                 <thead>
                     <tr>
-                        <th className="text-center font-semibold bg-slate-900 text-white p-3 border-slate-900">No</th>
+                        <th className="text-center font-semibold bg-primary-500 text-white p-3 border-primary-500">No</th>
                         {renderHeader()}
                     </tr>
                 </thead>

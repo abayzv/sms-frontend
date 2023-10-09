@@ -1,63 +1,52 @@
 import { Menu } from '@headlessui/react'
 import Link from 'next/link'
+import { FiEye } from 'react-icons/fi'
+import { BsPencil } from 'react-icons/bs'
+import { BiTrash } from 'react-icons/bi'
 
 export interface DropdownActions {
-   name: string,
-   route : string,
-   action?: Function
+    name: string,
+    route: string,
+    action?: Function
 }
 
-export default function Action({className, action, id} : {className: string, action: Array<DropdownActions>, id: string}) {
+export default function Action({ className, action, id }: { className: string, action: Array<DropdownActions>, id: string }) {
 
     const renderMenu = () => {
         return action.map((item, index) => {
-          // replace item route with id
+            // replace item route with id
             item.route = item.route.replace(":id", id)
 
-            if(item.name === "Detail")
-            return (
-                <Menu.Item key={index}>
-                    {({ active }) => (
-                        <Link
-                        href={item.route}
-                        className={`${
-                            active ? 'bg-blue-500 text-white' : 'text-gray-900'
-                        } p-2 px-5`}
-                        >
-                        {item.name}
+            switch (item.name) {
+                case "Detail":
+                    return (
+                        <Link href={item.route} key={index} title='Show Details' className='text-primary-500 hover:text-opacity-50'>
+                            <FiEye size={20} />
                         </Link>
-                    )}
-                </Menu.Item>
-            )
-
-            if(item.action)
-            return (
-                <Menu.Item key={index}>
-                    {({ active }) => (
-                        <button
-                        // @ts-ignore
-                        onClick={() => item.action(id)}
-                        className={`${
-                            active ? 'bg-blue-500 text-white' : 'text-gray-900'
-                        } p-2 text-start px-5`}
-                        >
-                        {item.name}
+                    )
+                case "Edit":
+                    return (
+                        <Link key={index} href={item.route} className='text-yellow-300 hover:text-opacity-50' title='Edit'>
+                            <BsPencil size={20} />
+                        </Link>
+                    )
+                case "Delete":
+                    return (
+                        <button key={index} className='text-red-500 hover:text-opacity-50' title='Delete'>
+                            <BiTrash size={20} onClick={() => item.action && item.action(id)} />
                         </button>
-                    )}
-                </Menu.Item>
-            )
+                    )
+            }
+
         })
     }
 
     return (
-        <Menu>
-          <Menu.Button className={`${className} text-xs`}>More</Menu.Button>
-          <div className="relative">
-            <Menu.Items className="absolute grid bg-white w-[200px] border border-gray-300 text-start rounded-md mt-2">
-              {renderMenu()}    
-            </Menu.Items>
-          </div>
-        </Menu>
-      )
+        <div>
+            <ul className='flex gap-10 justify-center w-auto'>
+                {renderMenu()}
+            </ul>
+        </div>
+    )
 
 }

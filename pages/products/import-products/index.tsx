@@ -158,7 +158,7 @@ const Platforms = ({ data, onSelect, selectedPlatform }: IPlatformsProps) => {
         if (index === selectedPlatform) {
             return "border-primary-500 bg-primary-50 text-primary-500"
         } else {
-            return "border-slate-300 bg-slate-50"
+            return "border-slate-300 bg-slate-50 grayscale"
         }
     }
 
@@ -168,7 +168,7 @@ const Platforms = ({ data, onSelect, selectedPlatform }: IPlatformsProps) => {
             <div className="grid grid-cols-3 gap-2 my-2">
                 {data.map((item, index) => {
                     return (
-                        <button key={index} title={item.name} disabled={item.disabled} onClick={() => onSelect(index)} className={`cursor-pointer flex items-center justify-center bg-white rounded-xl p-5 border disabled:grayscale ${isSelected(index)}`}>
+                        <button key={index} title={item.name} disabled={item.disabled} onClick={() => onSelect(index)} className={`cursor-pointer flex items-center justify-center rounded-xl p-5 border disabled:grayscale ${isSelected(index)}`}>
                             <img src={item.image} className="w-14 h-14 object-contain" />
                         </button>
                     )
@@ -192,12 +192,10 @@ export default function ScrapeTokopedia() {
         {
             name: "Shopee",
             image: "https://4.bp.blogspot.com/-ZfTcHpuYnws/YYzYspsZlgI/AAAAAAAASx0/uo-2qi4dvwsdNM8T8UbV1YRl2mU4udlqACLcBGAsYHQ/s256/mentahan%2Blogo%2Bshopee.png",
-            disabled: true
         },
         {
             name: "Google Sheet",
             image: "https://cdn-icons-png.flaticon.com/256/2965/2965327.png",
-            disabled: true
         }
     ]
 
@@ -209,19 +207,52 @@ export default function ScrapeTokopedia() {
         setSelectedPlatform(index)
     }
 
+    const renderTokoPediaForm = () => {
+        return (
+            <FormHook data={[
+                {
+                    name: "storeId",
+                    type: "text",
+                    placeholder: "Enter Store ID from Tokopedia",
+                    description: "Store ID from Tokopedia, example: https://www.tokopedia.com/rexusId, then brandId is rexusId"
+                }
+            ]} onSubmit={onSubmit} />
+        )
+    }
+
+    const renderShopeeForm = () => {
+        return (
+            <FormHook data={[
+                {
+                    name: "storeId",
+                    type: "text",
+                    placeholder: "Enter Store ID from Shopee",
+                    description: "Store ID from Shopee, example: https://shopee.co.id/logitech, then brandId is logitech"
+                }
+            ]} onSubmit={onSubmit} />
+        )
+    }
+
+    const renderGoogleSheetForm = () => {
+        return (
+            <FormHook data={[
+                {
+                    name: "sheetId",
+                    type: "file",
+                    description: "Allowed file types .csv, .xls, .xlsx"
+                }
+            ]} onSubmit={onSubmit} />
+        )
+    }
+
     return (
         <Layout>
             <div className="grid grid-cols-2 gap-5">
                 <Card title="Imports Product">
                     <Platforms data={platforms} selectedPlatform={selectedPlatform} onSelect={(index) => handleSelectPlatform(index)} />
-                    <FormHook data={[
-                        {
-                            name: "storeId",
-                            type: "text",
-                            placeholder: "Enter Store ID from Tokopedia",
-                            description: "Store ID from Tokopedia, example: https://www.tokopedia.com/rexusId, then brandId is rexusId"
-                        }
-                    ]} onSubmit={onSubmit} />
+                    {selectedPlatform === 0 && renderTokoPediaForm()}
+                    {selectedPlatform === 1 && renderShopeeForm()}
+                    {selectedPlatform === 2 && renderGoogleSheetForm()}
                 </Card>
 
                 {storeId && <Categories storeId={storeId} setCategory={(slug) => setCategorySlug(slug)} />}

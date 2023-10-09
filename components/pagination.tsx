@@ -102,9 +102,9 @@ export default function Pagination({ totalPage, page }: { totalPage: number, pag
 
     return (
         <div className="flex justify-end gap-3 mt-5">
-            <button onClick={() => prevPage()} className="bg-slate-900 text-white p-3 rounded-md px-10 hover:bg-slate-700">Prev</button>
+            <button onClick={() => prevPage()} className="bg-primary-500 text-white p-3 rounded-md px-10 hover:bg-slate-700">Prev</button>
             {renderPage()}
-            <button onClick={() => nextPage()} className="bg-slate-900 text-white p-3 rounded-md px-10 hover:bg-slate-700">Next</button>
+            <button onClick={() => nextPage()} className="bg-primary-500 text-white p-3 rounded-md px-10 hover:bg-slate-700">Next</button>
         </div>
     )
 }
