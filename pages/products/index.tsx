@@ -1,13 +1,13 @@
 import Datatable from "../../components/datatable"
 import Fadein from "../../components/transition/fade-in"
 
-Users.auth = {}
+Products.auth = {}
 
-export default function Users() {
+export default function Products() {
 
     return (
         <Fadein>
-            <Datatable title="User Data" url="/products" header={["name", "price", "category", "action"]} action={[
+            <Datatable title="User Data" url="/products" header={["media_url|picture", "name", "price", "category", "action"]} action={[
                 {
                     name: "Detail",
                     route: "/products/:id"

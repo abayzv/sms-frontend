@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 
 interface DeletePopupState {
-    url: string
-    setUrl: (url: string) => void
     isOpen: boolean
     open: () => void
     close: () => void
@@ -13,8 +11,6 @@ interface DeletePopupState {
 }
 
 export const useDeletePopup = create<DeletePopupState>((set) => ({
-    url: '',
-    setUrl: (url) => set({ url }),
     isOpen: false,
     open: () => set({ isOpen: true }),
     close: () => set({ isOpen: false }),

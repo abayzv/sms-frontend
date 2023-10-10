@@ -13,7 +13,7 @@ import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
 import { useSession } from "next-auth/react"
 import { MdOutlineFilterList } from "react-icons/md"
-import { useDeletePopup } from "@/store/useDeletePopup"
+import { useDataTable } from "@/store/useDatatable"
 
 const actionDropwdown: Array<DropdownActions> = [
 ]
@@ -45,7 +45,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
     const { data: session } = useSession()
-    const { setUrl } = useDeletePopup()
+    const { setUrl } = useDataTable()
 
     // Form Data
     const [formData, setFormData] = useState({} as any)
@@ -60,10 +60,10 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     })
 
     enum RoleColor {
-        "superadmin" = "bg-yellow-100 border border-yellow-200",
-        "admin" = "bg-red-100 border border-red-200",
-        "teacher" = "bg-green-100 border border-green-200",
-        "student" = "bg-blue-100 border border-blue-200"
+        "superadmin" = "bg-yellow-100 border-yellow-200",
+        "admin" = "bg-red-100 border-red-200",
+        "teacher" = "bg-green-100 border-green-200",
+        "student" = "bg-blue-100 ue-200"
     }
 
     const { data, error, isLoading } = swr(url, async (url) => {
@@ -107,24 +107,24 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         }
 
         return headerElement.map((item, index) => {
-            if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 border p-3 font-semibold">CREATED AT</th>
-            return <th key={index} className="text-center bg-primary-500 text-white p-3 font-semibold border-primary-500">{renderTitle(item).toUpperCase()}</th>
+            if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 p-3 font-semibold first:rounded-l-xl last:rounded-r-xl">CREATED AT</th>
+            return <th key={index} className="text-center bg-primary-500 text-white p-3 font-semibold border-primary-500 first:rounded-l-xl last:rounded-r-xl">{renderTitle(item).toUpperCase()}</th>
         })
 
     }
 
     const renderBody = () => {
         // each header element will be the key of the data
-        if (isLoading) return <tr><td colSpan={headerElement.length} className="border-b border-gray-200 text-center p-3">Loading...</td></tr>
-        if (!data) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
+        if (isLoading) return <tr><td colSpan={headerElement.length} className="text-center p-3">Loading...</td></tr>
+        if (!data) return <tr><td colSpan={headerElement.length + 1} className="text-center p-3">No Data</td></tr>
 
         const { dataSet } = data as any
-        if (dataSet.length === 0) return <tr><td colSpan={headerElement.length + 1} className="border-b border-gray-200 text-center p-3">No Data</td></tr>
+        if (dataSet.length === 0) return <tr><td colSpan={headerElement.length + 1} className="text-center p-3">No Data</td></tr>
 
         return dataSet.map((item: Array<any>, index: number) => {
             return (
-                <tr key={index} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"}`}>
-                    <td className="border text-neutral-600 border-gray-200 text-center p-3">{index + 1}.</td>
+                <tr key={index} className={`border-b ${index % 2 === 0 ? "bg-white" : "bg-white"}`}>
+                    <td className="text-neutral-600 text-center p-3 ">{index + 1}.</td>
                     {headerElement.map((key: any, index) => {
                         // if key has | then split it then return the first element
                         if (key.includes("|")) {
@@ -133,31 +133,31 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                         }
 
                         if (key === "action") return (
-                            <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
+                            <td key={index} className="text-neutral-600 text-center p-3">
                                 {/* @ts-ignore */}
                                 <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item._id} />
                             </td>
                         )
                         if (key === "role") return (
-                            <td key={index} className="border text-neutral-600 border-gray-200 text-center p-3">
+                            <td key={index} className="text-neutral-600 text-center p-3">
                                 {/* @ts-ignore */}
                                 <span className={`rounded-lg p-2 px-5 ${RoleColor[item[key]]}`}>{item[key]}</span>
                             </td>
                         )
                         if (!item[key]) return (
-                            <td key={index} className="border text-neutral-600 border-gray-200 p-3">
-                                <span className="rounded-lg p-2 px-5 bg-red-100 border border-red-200 text-red-500">Not Filled</span>
+                            <td key={index} className="text-neutral-600 p-3">
+                                <span className="rounded-lg p-2 px-5 bg-red-100 border-red-200 text-red-500">Not Filled</span>
                             </td>
                         )
-                        if (key === "createdAt") return <td key={index} className="border text-neutral-600 border-gray-200 text-end p-3">{FormatDate(item[key])}</td>
+                        if (key === "createdAt") return <td key={index} className="text-neutral-600 text-end p-3">{FormatDate(item[key])}</td>
 
                         if (["media_url", "image_url", "picture_url"].includes(key)) return (
-                            <td key={index} className="border text-neutral-600 border-gray-200 p-3">
-                                <img src={item[key]} alt="" className="w-20 h-20 object-cover object-center border rounded-xl" />
+                            <td key={index} className="text-neutral-600 p-3">
+                                <img src={item[key]} alt="" className="w-14 h-14 object-cover object-center rounded-xl" />
                             </td>
                         )
 
-                        return <td key={index} className="border text-neutral-600 border-gray-200 p-3">{item[key]}</td>
+                        return <td key={index} className="text-neutral-600 p-3">{item[key]}</td>
                     })}
                 </tr>
             )
@@ -178,14 +178,14 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                         if (item === "endDate" || item === "startDate") return (
                             <div key={index} className="flex flex-col gap-2">
                                 <label htmlFor={item} className="text-sm text-neutral-600">{item.toUpperCase()}</label>
-                                <input name={item} type="date" value={dataFilter[item]} onChange={e => setFilter({ [item]: e.target.value })} className="border border-gray-200 rounded-md text-neutral-600 outline-none p-2" placeholder={item} />
+                                <input name={item} type="date" value={dataFilter[item]} onChange={e => setFilter({ [item]: e.target.value })} className="border-gray-200 rounded-md text-neutral-600 outline-none p-2" placeholder={item} />
                             </div>
                         )
 
                         return (
                             <div key={index} className="flex flex-col gap-2">
                                 <label htmlFor={item} className="text-sm text-neutral-600">{item.toUpperCase()}</label>
-                                <input name={item} type="text" value={dataFilter[item]} onChange={e => setFilter({ [item]: e.target.value })} className="border border-gray-200 rounded-md text-neutral-600 outline-none p-2" placeholder={item} />
+                                <input name={item} type="text" value={dataFilter[item]} onChange={e => setFilter({ [item]: e.target.value })} className="border-gray-200 rounded-md text-neutral-600 outline-none p-2" placeholder={item} />
                             </div>
                         )
                     })}
@@ -279,7 +279,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     }
 
     return (
-        <div className="w-full bg-white p-5 rounded-xl border-b-4 border-slate-300 relative">
+        <div className="w-full bg-white p-5 rounded-xl 4 border-slate-300 relative">
             {/* <span className="absolute bg-primary-500 text-white top-0 left-6 p-2">{title}</span> */}
             {/* {allowCreate && (
                 <button className="absolute bg-primary-500 hover:bg-primary-400 text-white top-0 left-6 p-2" onClick={() => setShowModal(true)}>+Add {title}</button>
@@ -287,7 +287,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
             <div className="relative mb-5">
                 {/* <div className={`relative mb-5 ${allowCreate && "mt-10"}`}> */}
-                <div className="flex justify-between items-end border-b border-gray-200 pb-3 px-5 gap-3">
+                <div className="flex justify-between items-end border-gray-200 pb-3 px-5 gap-3">
                     {filter && (
                         <div className="text-lg text-neutral-600 flex gap-5 items-center cursor-pointer" onClick={() => {
                             setColapseFilter(!colapseFilter)
@@ -296,15 +296,13 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                             <span className="text-xs"><Icon name="chevron-right" /></span>
                         </div>
                     )}
-                    <select name="show" id="" onChange={handleChangeShow} className="border ml-auto border-gray-200 outline-none rounded-md" defaultValue={show || 10}>
+                    <select name="show" id="" onChange={handleChangeShow} className="ml-auto border-gray-200 outline-none rounded-md" defaultValue={show || 10}>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                     </select>
-                    <button className="p-3 border border-gray-200 text-neutral-600 hover:bg-gray-200 rounded-md" onClick={resetFilter}>
-                        <Icon name="refresh" />
-                    </button>
+                    <button className="p-3 text-white rounded-md bg-primary-500 hover:bg-slate-700" onClick={resetFilter}><Icon name="refresh" color="white" /></button>
                     <button className="p-2 px-5 text-white rounded-md bg-primary-500 hover:bg-slate-700" onClick={() => search()}>Search</button>
                     <button className="p-2 px-5 text-white rounded-md bg-primary-500 hover:bg-slate-700"><MdOutlineFilterList size={24} /></button>
                 </div>
@@ -314,7 +312,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
             <table className="w-full">
                 <thead>
                     <tr>
-                        <th className="text-center font-semibold bg-primary-500 text-white p-3 border-primary-500">No</th>
+                        <th className="text-center font-semibold bg-primary-500 text-white p-3 border-primary-500 first:rounded-l-xl last:rounded-r-xl">No</th>
                         {renderHeader()}
                     </tr>
                 </thead>

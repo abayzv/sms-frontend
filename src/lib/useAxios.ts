@@ -4,13 +4,16 @@ import { axiosAuth } from "./axios";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRefreshToken } from "./useRefreshToken";
+import { useLoading } from "@/store/useLoading";
 
 const useAxios = () => {
   const { data: session } = useSession();
+  const { setIsLoading } = useLoading();
   const refreshToken = useRefreshToken();
 
   axiosAuth.interceptors.request.use(
     (config) => {
+
       if (!config.headers["Authorization"]) {
         config.headers[
           "Authorization"

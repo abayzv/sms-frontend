@@ -1,9 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { IFormInput } from "@/types/form";
+import { mutate } from "swr";
+import { useDataTable } from "@/store/useDatatable";
+import { Button } from "../button";
 
 interface IFormHooks {
     data: Array<IInput>;
-    onSubmit: (data: IFormInput) => void;
+    onSubmit: (data: IFormInput) => Promise<void>;
 }
 
 interface ISelectOption {
@@ -24,10 +27,13 @@ interface IInput {
 
 export default function FormHook({ data, onSubmit }: IFormHooks) {
     const { register, watch, formState: { errors }, handleSubmit } = useForm<IFormInput>();
+    const { url } = useDataTable()
 
 
     const onsubmit = (data: IFormInput) => {
-        onSubmit(data);
+        onSubmit(data).then(() => {
+            mutate(url)
+        })
     }
 
     function Input({ name, defaultValue, type, title, placeholder, description }: IInput) {
@@ -70,7 +76,7 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
                 })}
             </div>
             <div className="text-end mt-5">
-                <button type="submit" className="bg-primary-500 hover:bg-opacity-80 text-white p-3 px-5 rounded-xl">Submit</button>
+                <Button type="submit">Submit</Button>
             </div>
         </form>
     )

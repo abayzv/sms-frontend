@@ -3,10 +3,13 @@ import { useDeletePopup } from "@/store/useDeletePopup";
 import { GoAlert } from "react-icons/go";
 import { motion } from "framer-motion";
 import { mutate } from "swr";
+import { useDataTable } from "@/store/useDatatable";
+import { Button } from "../button";
 
 
 const DeletePopUp: React.FC = () => {
-    const { isOpen, close, message, onDelete, url } = useDeletePopup();
+    const { isOpen, close, message, onDelete } = useDeletePopup();
+    const { url } = useDataTable()
 
     const handleSubmit = () => {
         onDelete().then(() => {
@@ -32,8 +35,8 @@ const DeletePopUp: React.FC = () => {
                             </p>
                         </div>
                         <div className="flex gap-3 justify-center">
-                            <button onClick={close} className="mt-5 bg-red-500 text-white px-5 py-2 rounded-xl">Cancel</button>
-                            <button onClick={handleSubmit} className="mt-5 bg-primary-500 text-white px-5 py-2 rounded-xl">Ok</button>
+                            <Button onClick={close} className="mt-5 bg-red-500">Cancel</Button>
+                            <Button onClick={handleSubmit} className="mt-5 px-5">Ok</Button>
                         </div>
                     </motion.div>
                 </div>

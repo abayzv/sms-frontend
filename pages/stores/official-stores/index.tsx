@@ -6,6 +6,7 @@ import Fadein from "../../../components/transition/fade-in"
 import { useModal } from "@/store/useModal"
 import { axiosAuth } from "@/lib/axios"
 import { useDeletePopup } from "@/store/useDeletePopup"
+import toast, { Toaster } from 'react-hot-toast';
 
 OfficialStores.auth = {}
 
@@ -14,16 +15,19 @@ export default function OfficialStores() {
     const { close: closeModal } = useModal()
     const { open: showDeletePopup, setDelete } = useDeletePopup()
 
-    const handleSubmit = (data: IFormInput) => {
-        axiosAuth.post("/official-stores", data).then((res) => {
-            alert("Success")
-        }).finally(() => {
-            closeModal()
-        })
+    const handleSubmit = async (data: IFormInput) => {
+        await axiosAuth.post("/official-stores", data)
+        toast.success('Official Store has been added!', {
+            position: 'top-center',
+        });
+        closeModal()
     }
 
     const deleteItem = async (id: string) => {
         await axiosAuth.delete(`/official-stores/${id}`)
+        toast.success('Official Store has been deleted!', {
+            position: 'top-center',
+        });
     }
 
     const handleDelete = (id: string) => {
@@ -33,6 +37,7 @@ export default function OfficialStores() {
 
     return (
         <Fadein>
+            <Toaster />
             <div>
                 <div className="mb-5">
                     <Modal trigger="Add Official Store">
