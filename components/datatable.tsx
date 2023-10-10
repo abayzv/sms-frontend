@@ -13,6 +13,7 @@ import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
 import { useSession } from "next-auth/react"
 import { MdOutlineFilterList } from "react-icons/md"
+import { useDeletePopup } from "@/store/useDeletePopup"
 
 const actionDropwdown: Array<DropdownActions> = [
 ]
@@ -44,6 +45,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
     const { data: session } = useSession()
+    const { setUrl } = useDeletePopup()
 
     // Form Data
     const [formData, setFormData] = useState({} as any)
@@ -252,6 +254,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
     useEffect(() => {
         mutate(url)
+        setUrl(url)
 
     }, [path, searchParams])
 

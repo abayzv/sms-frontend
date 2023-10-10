@@ -4,6 +4,7 @@ import Header from "./header";
 import Footer from "./footer";
 import Alert from "../alert";
 import PopUp from "../popup";
+import DeletePopUp from "../popup/delete-popup";
 import { GoAlert } from "react-icons/go";
 import { usePopup } from "@/store/usePopup";
 
@@ -25,6 +26,7 @@ export default function Layout({ children, title = "Mahestore" }: { children: Re
               </p>
             </div>
           </PopUp>
+          <DeletePopUp />
           {children}
           <Footer />
         </div>

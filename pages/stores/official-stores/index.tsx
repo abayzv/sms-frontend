@@ -3,22 +3,32 @@ import Datatable from "../../../components/datatable"
 import FormHook from "../../../components/form-hook"
 import Modal from "../../../components/form-hook/modal"
 import Fadein from "../../../components/transition/fade-in"
+import { useModal } from "@/store/useModal"
 import { axiosAuth } from "@/lib/axios"
+import { useDeletePopup } from "@/store/useDeletePopup"
 
 OfficialStores.auth = {}
 
 export default function OfficialStores() {
 
+    const { close: closeModal } = useModal()
+    const { open: showDeletePopup, setDelete } = useDeletePopup()
+
     const handleSubmit = (data: IFormInput) => {
         axiosAuth.post("/official-stores", data).then((res) => {
             alert("Success")
+        }).finally(() => {
+            closeModal()
         })
     }
 
+    const deleteItem = async (id: string) => {
+        await axiosAuth.delete(`/official-stores/${id}`)
+    }
+
     const handleDelete = (id: string) => {
-        axiosAuth.delete(`/official-stores/${id}`).then((res) => {
-            alert("Success")
-        })
+        setDelete(() => deleteItem(id))
+        showDeletePopup()
     }
 
     return (
@@ -46,10 +56,6 @@ export default function OfficialStores() {
                 </div>
 
                 <Datatable title="Official Store" url="/official-stores" header={["picture_url|picture", "name", "action"]} action={[
-                    {
-                        name: "Detail",
-                        route: "/official-stores/:id"
-                    },
                     {
                         name: "Edit",
                         route: "/official-stores/edit/:id"
