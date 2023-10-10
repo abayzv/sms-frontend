@@ -14,7 +14,7 @@ interface ISelectOption {
     label: string;
 }
 
-interface IInput {
+export interface IInput {
     name: string;
     defaultValue?: string | number;
     type: string;
