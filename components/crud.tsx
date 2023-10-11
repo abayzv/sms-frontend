@@ -65,14 +65,14 @@ export default function Crud({ url, title, header, message, addForm = [], canAdd
             if (action[item] === Action.detail && canViewDetails) {
                 actions.push({
                     name: "Detail",
-                    route: `${url}/:id`
+                    route: `${url}`
                 })
             }
 
             if (action[item] === Action.edit && canEditData) {
                 actions.push({
                     name: "Edit",
-                    route: `${url}/edit/:id`
+                    route: `${url}/edit`
                 })
             }
 

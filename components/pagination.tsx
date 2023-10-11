@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
+import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-icons/md'
 
-export default function Pagination({ totalPage, page }: { totalPage: number, page: number }) {
-    const [currentPage, setCurrentPage] = useState(page)
+export default function Pagination({ totalPage, page, totalRecords }: { totalPage: number, page: number, totalRecords: number }) {
+    const [currentPage, setCurrentPage] = useState(page || 1)
     const router = useRouter()
     const searchParams = useSearchParams()
     const path = usePathname() as string
@@ -101,10 +102,19 @@ export default function Pagination({ totalPage, page }: { totalPage: number, pag
     }
 
     return (
-        <div className="flex justify-end gap-3 mt-5">
-            <button onClick={() => prevPage()} className="bg-primary-500 text-white p-3 rounded-md px-10 hover:bg-slate-700">Prev</button>
-            {renderPage()}
-            <button onClick={() => nextPage()} className="bg-primary-500 text-white p-3 rounded-md px-10 hover:bg-slate-700">Next</button>
+        <div className="flex items-center mt-5">
+            <div>
+                {/* <p className=" text-neutral-400">Showing {totalPage} of {totalRecords} results</p> */}
+            </div>
+            <div className="ml-auto flex gap-3">
+                <button onClick={() => prevPage()} className="bg-primary-500 text-white p-3 rounded-md px-5 hover:bg-slate-700">
+                    <MdOutlineKeyboardArrowLeft size={20} />
+                </button>
+                {renderPage()}
+                <button onClick={() => nextPage()} className="bg-primary-500 text-white p-3 rounded-md px-5 hover:bg-slate-700">
+                    <MdOutlineKeyboardArrowRight size={20} />
+                </button>
+            </div>
         </div>
     )
 }

@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react"
 import { MdOutlineFilterList } from "react-icons/md"
 import { useDataTable } from "@/store/useDatatable"
 import { FaSearch } from "react-icons/fa"
+import formatPrice from "@/utils/formatPrice"
 
 const actionDropwdown: Array<DropdownActions> = [
 ]
@@ -22,6 +23,7 @@ const actionDropwdown: Array<DropdownActions> = [
 export default function Datatable({ url, filter, header, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title: string, allowCreate?: boolean, action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
+    const [totalRecords, setTotalRecords] = useState(0)
     const [dataPage, setPage] = useState(0)
     const [colapseFilter, setColapseFilter] = useState(false)
     const [isShowModal, setShowModal] = useState(false)
@@ -78,6 +80,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         const data = await res.data
         setTotalPage(+data.totalPages)
         setPage(+data.page)
+        setTotalRecords(+data.totalRecords)
         return {
             dataSet: data.data,
             totalPage: data.totalPages,
@@ -143,7 +146,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                         if (key === "action") return (
                             <td key={index} className="text-neutral-600 text-center p-3">
                                 {/* @ts-ignore */}
-                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item._id} />
+                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item["_id"]} />
                             </td>
                         )
                         if (key === "role") return (
@@ -152,6 +155,13 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                                 <span className={`rounded-lg p-2 px-5 ${RoleColor[item[key]]}`}>{item[key]}</span>
                             </td>
                         )
+
+                        if (key === "price") return (
+                            <td key={index} className="text-neutral-600 text-center p-3">
+                                {formatPrice(item[key])}
+                            </td>
+                        )
+
                         if (!item[key]) return (
                             <td key={index} className="text-neutral-600 p-3">
                                 <span className="rounded-lg p-2 px-5 bg-red-100 border-red-200 text-red-500">Not Filled</span>
@@ -160,7 +170,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                         if (key === "createdAt") return <td key={index} className="text-neutral-600 text-end p-3">{FormatDate(item[key])}</td>
 
                         if (["media_url", "image_url", "picture_url"].includes(key)) return (
-                            <td key={index} className="text-neutral-600 p-3">
+                            <td key={index} className="text-neutral-600 p-3 flex justify-center">
                                 <img src={item[key]} alt="" className="w-14 h-14 object-cover object-center rounded-xl" />
                             </td>
                         )
@@ -333,6 +343,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                 </tbody>
             </table>
             <Pagination
+                totalRecords={totalRecords}
                 totalPage={totalPage}
                 page={dataPage} />
             <SideModal

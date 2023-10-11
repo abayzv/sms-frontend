@@ -68,6 +68,10 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
                             return (
                                 <Input key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} />
                             )
+                        case "number":
+                            return (
+                                <Input key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} />
+                            )
                         case "file":
                             return (
                                 <InputFile key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} />

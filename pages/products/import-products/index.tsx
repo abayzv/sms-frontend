@@ -199,7 +199,7 @@ export default function ScrapeTokopedia() {
         }
     ]
 
-    const onSubmit = (data: IFormInput) => {
+    const onSubmit = async (data: IFormInput) => {
         setStoreId(data.storeId)
     };
 

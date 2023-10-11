@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FiEye } from 'react-icons/fi'
 import { BsPencil } from 'react-icons/bs'
 import { BiTrash } from 'react-icons/bi'
+import { useRouter } from 'next/router'
 
 export interface DropdownActions {
     name: string,
@@ -11,22 +12,21 @@ export interface DropdownActions {
 }
 
 export default function Action({ className, action, id }: { className: string, action: Array<DropdownActions>, id: string }) {
+    const router = useRouter()
 
     const renderMenu = () => {
         return action.map((item, index) => {
-            // replace item route with id
-            item.route = item.route.replace(":id", id)
 
             switch (item.name) {
                 case "Detail":
                     return (
-                        <Link href={item.route} key={index} title='Show Details' className='text-primary-500 hover:text-opacity-50'>
+                        <Link href={`${item.route}/${id}`} key={index} title='Show Details' className='text-primary-500 hover:text-opacity-50'>
                             <FiEye size={20} />
                         </Link>
                     )
                 case "Edit":
                     return (
-                        <Link key={index} href={item.route} className='text-yellow-300 hover:text-opacity-50' title='Edit'>
+                        <Link key={index} href={`${item.route}/${id}`} className='text-yellow-300 hover:text-opacity-50' title='Edit'>
                             <BsPencil size={20} />
                         </Link>
                     )

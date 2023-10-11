@@ -6,7 +6,7 @@ export default function OfficialStores() {
 
     return (
         <Crud
-            header={["picture_url|picture", "name", "action"]}
+            header={["picture_url|picture", "name", "_id|ID", "action"]}
             title="Official Store"
             url="/official-stores"
             addForm={[
