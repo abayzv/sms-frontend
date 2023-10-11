@@ -32,7 +32,7 @@ export default function Pagination({ totalPage, page }: { totalPage: number, pag
                 return (
                     <button key={index} onClick={() => {
                         goToPage(item)
-                    }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
+                    }} className={`bg-gray-100 p-3 px-5 rounded-md ${currentPage === item ? "bg-primary-500 text-white" : ""}`}>{item}</button>
                 )
             })
         }

@@ -14,6 +14,7 @@ import { Confirmation } from "./modal"
 import { useSession } from "next-auth/react"
 import { MdOutlineFilterList } from "react-icons/md"
 import { useDataTable } from "@/store/useDatatable"
+import { FaSearch } from "react-icons/fa"
 
 const actionDropwdown: Array<DropdownActions> = [
 ]
@@ -40,7 +41,7 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const { setAlert } = useAlertStore()
     const searchParams = useSearchParams()
     const page = searchParams?.get("page")
-    const show = searchParams?.get("show")
+    const show = searchParams?.get("show") || 5
     const router = useRouter()
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
@@ -70,16 +71,16 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         const res = await axiosAuth.get(url, {
             params: {
                 page,
-                show,
+                limit: show,
                 ...queryString
             }
         })
         const data = await res.data
-        setTotalPage(+data.totalPage)
+        setTotalPage(+data.totalPages)
         setPage(+data.page)
         return {
             dataSet: data.data,
-            totalPage: data.totalPage,
+            totalPage: data.totalPages,
             page: data.page
         }
     })
@@ -89,10 +90,17 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     function search() {
         // foreach dataFilter push route
         const filterMap = Object.entries(dataFilter).map(([key, value]) => {
+            delete queryString[key]
+
             return `${key}=${value}`
         })
         const filterString = filterMap.join("&")
-        router.push(`${path}?${filterString}`)
+        // if queryString is empty then push route with filter
+        if (Object.keys(queryString).length === 0) return router.push(`${path}?${filterString}`)
+
+        // if queryString is not empty then push route with filter and query string
+        queryString.page = 1
+        return router.push(`${path}?${filterString}&${new URLSearchParams(queryString).toString()}`)
     }
 
     const renderHeader = () => {
@@ -287,7 +295,11 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
 
             <div className="relative mb-5">
                 {/* <div className={`relative mb-5 ${allowCreate && "mt-10"}`}> */}
-                <div className="flex justify-between items-end border-gray-200 pb-3 px-5 gap-3">
+                <div className="flex justify-between items-end border-gray-200 pb-3 gap-3">
+                    <div>
+                        <FaSearch className="absolute top-3 left-3 text-primary-500" />
+                        <input value={dataFilter['name']} onChange={e => setFilter({ name: e.target.value })} type="text" placeholder="Search" className="border-primary-200 bg-primary-50 rounded-md text-neutral-600 outline-none p-2 pl-10" />
+                    </div>
                     {filter && (
                         <div className="text-lg text-neutral-600 flex gap-5 items-center cursor-pointer" onClick={() => {
                             setColapseFilter(!colapseFilter)
@@ -296,11 +308,11 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
                             <span className="text-xs"><Icon name="chevron-right" /></span>
                         </div>
                     )}
-                    <select name="show" id="" onChange={handleChangeShow} className="ml-auto border-gray-200 outline-none rounded-md" defaultValue={show || 10}>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                    <select name="show" id="" onChange={handleChangeShow} className="ml-auto border-gray-200 outline-none rounded-md" defaultValue={show || 5}>
                         <option value="5">5</option>
                         <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
                     </select>
                     <button className="p-3 text-white rounded-md bg-primary-500 hover:bg-slate-700" onClick={resetFilter}><Icon name="refresh" color="white" /></button>
                     <button className="p-2 px-5 text-white rounded-md bg-primary-500 hover:bg-slate-700" onClick={() => search()}>Search</button>
