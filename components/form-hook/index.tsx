@@ -1,8 +1,9 @@
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm, SubmitHandler, UseFormRegister } from "react-hook-form"
 import { IFormInput } from "@/types/form";
 import { mutate } from "swr";
 import { useDataTable } from "@/store/useDatatable";
 import { Button } from "../button";
+import InputTags from "./input-tags";
 
 interface IFormHooks {
     data: Array<IInput>;
@@ -15,13 +16,32 @@ interface ISelectOption {
 }
 
 export interface IInput {
+    /** Name for the input property */
     name: string;
+    /** Default value for the input property */
     defaultValue?: string | number;
+    /** Default value for the tags input property */
+    defaultTags?: string[];
+    /** Type must be one of the following: text, number, file, textarea, tags */
     type: string;
+    /** Use options if type is select */
     options?: ISelectOption[];
+    /** Label for the input property */
     title?: string;
+    /** Placeholder for the input property */
     placeholder?: string;
+    /** Desc for the input property */
     description?: string;
+}
+
+interface ITags {
+    register: UseFormRegister<IFormInput>;
+    name: string;
+    defaultValue?: string[];
+    placeholder?: string;
+    required?: boolean;
+    description?: string;
+    title?: string;
 }
 
 
@@ -58,6 +78,28 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
         )
     }
 
+    function Textarea({ name, defaultValue, type, title, placeholder, description }: IInput) {
+        return (
+            <div className="flex flex-col gap-2">
+                {title && <label htmlFor={name} className="text-slate-600">{title}</label>}
+                <textarea defaultValue={defaultValue} placeholder={placeholder} {...register(name, { required: true })} className="rounded-xl bg-primary-500 bg-opacity-5 border-primary-500 focus:ring-primary-500 text-slate-700" rows={5} />
+                {description && <span className="text-slate-400 text-sm">Notes: {description}</span>}
+                {errors[name] && <span className="text-red-500 text-sm">This field is required</span>}
+            </div>
+        )
+    }
+
+    function Tags({ name, defaultValue, title, placeholder, description }: ITags) {
+        return (
+            <div className="flex flex-col gap-2">
+                {title && <label htmlFor={name} className="text-slate-600">{title}</label>}
+                <InputTags name={name} defaultValue={defaultValue} register={register} placeholder={placeholder} />
+                {description && <span className="text-slate-400 text-sm">Notes: {description}</span>}
+                {errors[name] && <span className="text-red-500 text-sm">This field is required</span>}
+            </div>
+        )
+    }
+
     return (
         <form onSubmit={handleSubmit(onsubmit)} className="p-2">
             <div className="flex flex-col gap-3">
@@ -75,6 +117,14 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
                         case "file":
                             return (
                                 <InputFile key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} />
+                            )
+                        case "textarea":
+                            return (
+                                <Textarea key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} />
+                            )
+                        case "tags":
+                            return (
+                                <Tags key={index} name={item.name} defaultValue={item.defaultTags} placeholder={item.placeholder} title={item.title} description={item.description} register={register} />
                             )
                     }
                 })}

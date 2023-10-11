@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import useAxios from '@/lib/useAxios'
 import swr from 'swr'
 import FormHook from '../../components/form-hook'
@@ -7,11 +8,17 @@ import { Button } from '../../components/button'
 import { AiOutlineEye, AiTwotoneFire } from 'react-icons/ai'
 import { BiTrash } from 'react-icons/bi'
 import { MdDiscount } from 'react-icons/md'
+import { MDXEditor, MDXEditorMethods } from '@mdxeditor/editor'
+import MdxRender from '../../components/mdx-render'
+import InputTags from '../../components/form-hook/input-tags'
 
 ProductDetails.auth = {}
 
 export default function ProductDetails() {
     const axiosAuth = useAxios()
+    const mdxEditorRef = useRef<MDXEditorMethods>(null)
+
+    const [markdown, setMarkdown] = useState('')
 
     const router = useRouter()
     const { id } = router.query
@@ -72,10 +79,16 @@ export default function ProductDetails() {
                                     },
                                     {
                                         name: "description",
-                                        type: "text",
+                                        type: "textarea",
                                         defaultValue: data.data.description,
                                         title: "Description",
                                     },
+                                    {
+                                        name: "tags",
+                                        type: "tags",
+                                        defaultTags: data.data.tags,
+                                        title: "Tags",
+                                    }
                                 ]}
                                 onSubmit={async (data) => {
                                     console.log(data)
