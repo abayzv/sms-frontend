@@ -7,6 +7,7 @@ import { ReactElement } from "react"
 import Layout from "../components/layout/main"
 import Lottie from "lottie-react"
 import { motion, AnimatePresence } from "framer-motion"
+import MdxProvider from "../components/mdx-layout"
 
 
 export default function App({

@@ -1,0 +1,19 @@
+import MdxLayout from '../../components/mdx-layout'
+ 
+# Welcome to my MDX page!
+
+This page is rendered using MDX, a combination of Markdown and JSX. It's a great way to write content that needs to be interactive, or that needs to be able to pull in data from other sources.
+
+## What is MDX?
+
+MDX is a combination of Markdown and JSX. It allows you to write Markdown, and then add JSX components to it. This means you can write interactive content, or pull in data from other sources.
+
+```json
+{
+  "test": "This is a code block"
+}
+```
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}
