@@ -54,6 +54,11 @@ const menu: Menu[] = [
             },
         ],
     },
+    {
+        name: "Orders",
+        route: "/orders",
+        icon: "dashboard",
+    },
 ];
 
 export const useSidebar = create<SidebarState>()(

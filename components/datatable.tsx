@@ -16,11 +16,11 @@ import { MdOutlineFilterList } from "react-icons/md"
 import { useDataTable } from "@/store/useDatatable"
 import { FaSearch } from "react-icons/fa"
 import formatPrice from "@/utils/formatPrice"
+import { IDataTable, ITemplate } from "@/types/datatable"
 
-const actionDropwdown: Array<DropdownActions> = [
-]
+const actionDropwdown: Array<DropdownActions> = []
 
-export default function Datatable({ url, filter, header, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: { url: string, filter?: Array<string>, header: Array<string>, title: string, allowCreate?: boolean, action?: Array<DropdownActions>, dataForm?: Array<DataForm> }) {
+export default function Datatable({ url, filter, template, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: IDataTable) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [totalRecords, setTotalRecords] = useState(0)
@@ -88,7 +88,79 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
         }
     })
 
-    const headerElement = header
+    const headerElement = template.map((item) => {
+        return item.header
+    })
+
+    const dataKey = template.map((item) => {
+        return item.key
+    })
+
+    // Unused, if you want to use this, you need to change the return of renderHeader and renderBody
+    const RenderKey = (item: any) => {
+        return dataKey.map((key: any, index) => {
+
+            // if key has | then split it then return the first element
+            // if (key.includes("|")) {
+            //     const splitKey = key.split("|")
+            //     key = splitKey[0]
+            // }
+
+            // if (key === "action") return (
+            //     <td key={index} className="text-neutral-600 text-center p-3">
+            //         {/* @ts-ignore */}
+            //         <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item["_id"]} />
+            //     </td>
+            // )
+            // if (key === "role") return (
+            //     <td key={index} className="text-neutral-600 text-center p-3">
+            //         {/* @ts-ignore */}
+            //         <span className={`rounded-lg p-2 px-5 ${RoleColor[item[key]]}`}>{item[key]}</span>
+            //     </td>
+            // )
+
+            // if (key === "price") return (
+            //     <td key={index} className="text-neutral-600 text-center p-3">
+            //         {formatPrice(item[key])}
+            //     </td>
+            // )
+
+            // if (!item[key]) return (
+            //     <td key={index} className="text-neutral-600 p-3">
+            //         <span className="rounded-lg p-2 px-5 bg-red-100 border-red-200 text-red-500">Not Filled</span>
+            //     </td>
+            // )
+            // if (key === "createdAt") return <td key={index} className="text-neutral-600 text-end p-3">{FormatDate(item[key])}</td>
+
+            // if (["media_url", "image_url", "picture_url"].includes(key)) return (
+            //     <td key={index} className="text-neutral-600 p-3 flex justify-center">
+            //         <img src={item[key]} alt="" className="w-14 h-14 object-cover object-center rounded-xl" />
+            //     </td>
+            // )
+
+            return <td key={index} className="text-neutral-600 p-3">{item[key]}</td>
+        })
+    }
+
+    const RenderTemplate = ({ item }: any) => {
+        return template.map(({ render, key, itemAlign = "center", header }: ITemplate, index) => {
+            if (header === "action")
+                return (
+                    <td key={index} className="text-neutral-600 text-center p-3">
+                        {/* @ts-ignore */}
+                        <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item["_id"]} />
+                    </td>
+                )
+
+            if (!render) return (
+                <td key={index} className={`text-neutral-600 p-3 text-${itemAlign}`}>{item[key]}</td>
+            )
+
+            return (
+                <td key={index} className={`text-neutral-600 p-3 text-${itemAlign}`}>{render(item)}</td>
+            )
+        })
+    }
 
     function search() {
         // foreach dataFilter push route
@@ -109,16 +181,15 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
     const renderHeader = () => {
 
         const renderTitle = (name: string) => {
-            // if name has | then split it then return the second element
-            if (name.includes("|")) {
-                const splitName = name.split("|")
-                return splitName[1]
-            }
+            // // if name has | then split it then return the second element
+            // if (name.includes("|")) {
+            //     const splitName = name.split("|")
+            //     return splitName[1] 
+            // }
             return name
         }
 
         return headerElement.map((item, index) => {
-            if (item === "createdAt") return <th key={index} className="text-center bg-primary-100 p-3 font-semibold first:rounded-l-xl last:rounded-r-xl">CREATED AT</th>
             return <th key={index} className="text-center bg-primary-500 text-white p-3 font-semibold border-primary-500 first:rounded-l-xl last:rounded-r-xl">{renderTitle(item).toUpperCase()}</th>
         })
 
@@ -136,47 +207,8 @@ export default function Datatable({ url, filter, header, title, allowCreate = tr
             return (
                 <tr key={index} className={`border-b ${index % 2 === 0 ? "bg-white" : "bg-white"}`}>
                     <td className="text-neutral-600 text-center p-3 ">{index + 1}.</td>
-                    {headerElement.map((key: any, index) => {
-                        // if key has | then split it then return the first element
-                        if (key.includes("|")) {
-                            const splitKey = key.split("|")
-                            key = splitKey[0]
-                        }
-
-                        if (key === "action") return (
-                            <td key={index} className="text-neutral-600 text-center p-3">
-                                {/* @ts-ignore */}
-                                <Action action={action} className="bg-primary-500 text-white rounded-lg p-2 px-5" id={item["_id"]} />
-                            </td>
-                        )
-                        if (key === "role") return (
-                            <td key={index} className="text-neutral-600 text-center p-3">
-                                {/* @ts-ignore */}
-                                <span className={`rounded-lg p-2 px-5 ${RoleColor[item[key]]}`}>{item[key]}</span>
-                            </td>
-                        )
-
-                        if (key === "price") return (
-                            <td key={index} className="text-neutral-600 text-center p-3">
-                                {formatPrice(item[key])}
-                            </td>
-                        )
-
-                        if (!item[key]) return (
-                            <td key={index} className="text-neutral-600 p-3">
-                                <span className="rounded-lg p-2 px-5 bg-red-100 border-red-200 text-red-500">Not Filled</span>
-                            </td>
-                        )
-                        if (key === "createdAt") return <td key={index} className="text-neutral-600 text-end p-3">{FormatDate(item[key])}</td>
-
-                        if (["media_url", "image_url", "picture_url"].includes(key)) return (
-                            <td key={index} className="text-neutral-600 p-3 flex justify-center">
-                                <img src={item[key]} alt="" className="w-14 h-14 object-cover object-center rounded-xl" />
-                            </td>
-                        )
-
-                        return <td key={index} className="text-neutral-600 p-3">{item[key]}</td>
-                    })}
+                    {/* <RenderKey item={item} /> */}
+                    <RenderTemplate item={item} />
                 </tr>
             )
         })

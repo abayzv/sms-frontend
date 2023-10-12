@@ -1,16 +1,14 @@
 import Crud from "../../components/crud"
-import Datatable from "../../components/datatable"
-import Fadein from "../../components/transition/fade-in"
 
-Products.auth = {}
+Orders.auth = {}
 
-export default function Products() {
+export default function Orders() {
 
     return (
         <Crud
             template={[]}
-            title="Products"
-            url="/products"
+            title="Order List"
+            url="/orders"
             addForm={[
                 {
                     name: "name",
@@ -26,7 +24,7 @@ export default function Products() {
                 }
             ]}
             canAddData={true}
-            canViewDetails={true}
+            canEditData={true}
             canDeleteData={true}
         />
     )

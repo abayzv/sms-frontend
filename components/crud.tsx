@@ -8,6 +8,7 @@ import { axiosAuth } from "@/lib/axios"
 import { useDeletePopup } from "@/store/useDeletePopup"
 import toast, { Toaster } from 'react-hot-toast';
 import { DropdownActions } from "./tableAction"
+import { ITemplate } from "@/types/datatable"
 
 enum Action {
     edit = "edit",
@@ -18,7 +19,7 @@ enum Action {
 export interface ICrud {
     url: string;
     title: string;
-    header: string[];
+    template: ITemplate[];
     canAddData?: boolean;
     canViewDetails?: boolean;
     canDeleteData?: boolean;
@@ -31,12 +32,14 @@ export interface ICrud {
     }
 }
 
-export default function Crud({ url, title, header, message, addForm = [], canAddData, canViewDetails = false, canEditData = false, canDeleteData = false }: ICrud) {
+export default function Crud({ url, title, template, message, addForm = [], canAddData, canViewDetails = false, canEditData = false, canDeleteData = false }: ICrud) {
 
     const action = [Action.detail, Action.edit, Action.delete]
 
     const { close: closeModal } = useModal()
     const { open: showDeletePopup, setDelete } = useDeletePopup()
+
+    const header = template.map((item) => item.header)
 
     const handleSubmit = async (data: IFormInput) => {
         await axiosAuth.post(url, data)
@@ -103,8 +106,8 @@ export default function Crud({ url, title, header, message, addForm = [], canAdd
                 )}
 
                 {header.includes("action") ?
-                    <Datatable title={title} url={url} header={header} action={renderAction()} /> :
-                    <Datatable title={title} url={url} header={header} />
+                    <Datatable title={title} url={url} template={template} action={renderAction()} /> :
+                    <Datatable title={title} url={url} template={template} />
                 }
             </div>
         </Fadein>
