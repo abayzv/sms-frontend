@@ -33,7 +33,7 @@ export default function Pagination({ totalPage, page, totalRecords }: { totalPag
                 return (
                     <button key={index} onClick={() => {
                         goToPage(item)
-                    }} className={`bg-gray-100 p-3 px-5 rounded-md ${currentPage === item ? "bg-primary-500 text-white" : ""}`}>{item}</button>
+                    }} className={`bg-gray-100 p-2 px-4 rounded-md ${currentPage === item ? "bg-primary-500 text-white" : ""}`}>{item}</button>
                 )
             })
         }
@@ -51,7 +51,7 @@ export default function Pagination({ totalPage, page, totalRecords }: { totalPag
                     return (
                         <button key={index} onClick={() => {
                             if (item !== "...") goToPage(+item)
-                        }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
+                        }} className={`bg-gray-100 p-2 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
             }
@@ -67,7 +67,7 @@ export default function Pagination({ totalPage, page, totalRecords }: { totalPag
                     return (
                         <button key={index} onClick={() => {
                             if (item !== "...") goToPage(+item)
-                        }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
+                        }} className={`bg-gray-100 p-2 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
             }
@@ -81,7 +81,7 @@ export default function Pagination({ totalPage, page, totalRecords }: { totalPag
                     return (
                         <button key={index} onClick={() => {
                             if (item !== "...") goToPage(+item)
-                        }} className={`bg-gray-100 p-3 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
+                        }} className={`bg-gray-100 p-2 rounded-md ${currentPage === item ? "bg-primary-200" : ""}`}>{item}</button>
                     )
                 })
             }
@@ -107,11 +107,11 @@ export default function Pagination({ totalPage, page, totalRecords }: { totalPag
                 {/* <p className=" text-neutral-400">Showing {totalPage} of {totalRecords} results</p> */}
             </div>
             <div className="ml-auto flex gap-3">
-                <button onClick={() => prevPage()} className="bg-primary-500 text-white p-3 rounded-md px-5 hover:bg-slate-700">
+                <button onClick={() => prevPage()} className="bg-primary-500 text-white p-2 rounded-md hover:bg-slate-700">
                     <MdOutlineKeyboardArrowLeft size={20} />
                 </button>
                 {renderPage()}
-                <button onClick={() => nextPage()} className="bg-primary-500 text-white p-3 rounded-md px-5 hover:bg-slate-700">
+                <button onClick={() => nextPage()} className="bg-primary-500 text-white p-2 rounded-md hover:bg-slate-700">
                     <MdOutlineKeyboardArrowRight size={20} />
                 </button>
             </div>

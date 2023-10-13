@@ -57,7 +57,7 @@ const menu: Menu[] = [
     {
         name: "Orders",
         route: "/orders",
-        icon: "dashboard",
+        icon: "receipt",
     },
 ];
 

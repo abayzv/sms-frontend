@@ -1,6 +1,5 @@
 import Crud from "../../components/crud"
-import Datatable from "../../components/datatable"
-import Fadein from "../../components/transition/fade-in"
+import formatPrice from "@/utils/formatPrice"
 
 Products.auth = {}
 
@@ -8,7 +7,35 @@ export default function Products() {
 
     return (
         <Crud
-            template={[]}
+            template={[
+                {
+                    header: "Product",
+                    key: "name",
+                    render: (item: any) => (
+                        <div className="flex gap-2 items-center">
+                            <img src={item.media_url} className="w-14 h-14 rounded-md border" />
+                            {item.name}
+                        </div>
+                    ),
+                    itemAlign: "left",
+                },
+                {
+                    header: "price",
+                    key: "price",
+                    itemAlign: "center",
+                    render: (item: any) => <>{formatPrice(item.price)}</>
+                },
+                {
+                    header: "category",
+                    key: "category",
+                    itemAlign: "center",
+                },
+                {
+                    header: "action",
+                    key: "action",
+                    itemAlign: "center",
+                }
+            ]}
             title="Products"
             url="/products"
             addForm={[

@@ -7,13 +7,15 @@ import { getCsrfToken } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { signIn } from "next-auth/react";
-import Icon from "@/components/icon";
+import Icon from "../../components/icon";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function SignIn({
   csrfToken,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
   return (
     <div className="bg-blue-500 fixed top-0 w-full h-screen flex items-center justify-center">
       {/* <div className="cloud fixed top-0 left-0 w-[100%] h-[100%] -z-10 transform translate-y-20 opacity-100"></div> */}

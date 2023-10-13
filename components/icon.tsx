@@ -6,7 +6,6 @@ import {
     FaChevronDown,
     FaEnvelope,
     FaBell,
-    FaSignOutAlt,
     FaKey,
     FaRedoAlt,
     FaCheckCircle,
@@ -20,6 +19,8 @@ import {
 import { BsBoxSeam } from "react-icons/bs";
 import { RxDashboard } from 'react-icons/rx'
 import { IoStorefrontOutline } from 'react-icons/io5'
+import { MdOutlineReceiptLong } from 'react-icons/md'
+import { IoIosLogOut } from 'react-icons/io'
 
 export default function Icon({ name = "", color = "black", style = {}, className = "", size = 16 }: { name?: string, color?: string, style?: React.CSSProperties, className?: string, size?: number }) {
 
@@ -40,7 +41,7 @@ export default function Icon({ name = "", color = "black", style = {}, className
             case "bell":
                 return <FaBell {...props} />
             case "sign-out":
-                return <FaSignOutAlt {...props} />
+                return <IoIosLogOut {...props} />
             case "refresh":
                 return <FaRedoAlt {...props} />
             case "key":
@@ -63,6 +64,8 @@ export default function Icon({ name = "", color = "black", style = {}, className
                 return <RxDashboard {...props} />
             case "store":
                 return <IoStorefrontOutline {...props} />
+            case "receipt":
+                return <MdOutlineReceiptLong {...props} />
 
         }
     }

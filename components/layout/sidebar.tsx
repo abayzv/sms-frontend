@@ -123,6 +123,16 @@ export default function Sidebar() {
       <div className="relative bg-white flex-1 flex flex-col dark:bg-gray-800">
         <ul className="font-medium flex flex-col flex-1 mt-10">
           {renderMenu()}
+          <li className="px-4 py-1">
+            <a
+              onClick={() => signOut()}
+              className={`flex gap-4 items-center font-normal p-3 rounded-xl cursor-pointer ${isCollapsed ? "justify-center" : "px-7"
+                } text-slate-600 hover:bg-sky-100 dark:text-sky-400 dark:hover:bg-sky-700`}
+            >
+              <Icon name="sign-out" size={20} color="#3085C3" />
+              <span className={`${isCollapsed ? "hidden" : ""}`}>Sign Out</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

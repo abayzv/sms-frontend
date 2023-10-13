@@ -34,7 +34,7 @@ export const useRefreshToken = () => {
         error.response.status === 401 ||
         error.response.data.message === "jwt expired"
       ) {
-        // await signOut();
+        await signOut();
       }
     }
   };
