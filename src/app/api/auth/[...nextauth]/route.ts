@@ -52,8 +52,6 @@ export const authOptions: AuthOptions = {
           password: password,
         }
 
-        console.log(loginBody)
-
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`, loginBody)
 
@@ -76,6 +74,8 @@ export const authOptions: AuthOptions = {
           access_token: data.data.accessToken,
           refresh_token: data.data.refreshToken,
         };
+
+        console.log(userData)
 
         if (user) {
           return userData;
