@@ -1,8 +1,8 @@
 import Crud from "../../../components/crud"
 
-OfficialStores.auth = {}
+OfficialStoresPage.auth = {}
 
-export default function OfficialStores() {
+export default function OfficialStoresPage() {
 
     return (
         <Crud

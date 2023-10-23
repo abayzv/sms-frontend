@@ -2,9 +2,9 @@ import formatPrice from "@/utils/formatPrice"
 import Crud from "../../components/crud"
 import FormatDate from "@/utils/formatDate"
 
-Orders.auth = {}
+OrdersPage.auth = {}
 
-export default function Orders() {
+export default function OrdersPage() {
 
     const statusStyle = (status: string) => {
         switch (status) {

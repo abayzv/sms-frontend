@@ -60,9 +60,14 @@ const menu: Menu[] = [
         icon: "receipt",
     },
     {
+        name: "Anlytics",
+        route: "/analytics",
+        icon: "analytics",
+    },
+    {
         name: "Server",
         route: "/server",
-        icon: "dashboard",
+        icon: "server",
     }
 ];
 

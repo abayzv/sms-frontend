@@ -21,6 +21,8 @@ import { RxDashboard } from 'react-icons/rx'
 import { IoStorefrontOutline } from 'react-icons/io5'
 import { MdOutlineReceiptLong } from 'react-icons/md'
 import { IoIosLogOut } from 'react-icons/io'
+import { AiOutlineCloudServer } from "react-icons/ai";
+import { IoAnalyticsOutline } from "react-icons/io5";
 
 export default function Icon({ name = "", color = "black", style = {}, className = "", size = 16 }: { name?: string, color?: string, style?: React.CSSProperties, className?: string, size?: number }) {
 
@@ -66,6 +68,10 @@ export default function Icon({ name = "", color = "black", style = {}, className
                 return <IoStorefrontOutline {...props} />
             case "receipt":
                 return <MdOutlineReceiptLong {...props} />
+            case "server":
+                return <AiOutlineCloudServer {...props} />
+            case "analytics":
+                return <IoAnalyticsOutline {...props} />
 
         }
     }

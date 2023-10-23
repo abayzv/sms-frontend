@@ -11,7 +11,6 @@ import { useAlertStore } from "../lib/store"
 import { DataForm } from "./sideModal"
 import { DropdownActions } from "./tableAction"
 import { Confirmation } from "./modal"
-import { useSession } from "next-auth/react"
 import { MdOutlineFilterList } from "react-icons/md"
 import { useDataTable } from "@/store/useDatatable"
 import { FaSearch } from "react-icons/fa"
@@ -47,7 +46,6 @@ export default function Datatable({ url, filter, template, title, allowCreate = 
     const router = useRouter()
     const path = usePathname() as string
     const { mutate } = useSWRConfig()
-    const { data: session } = useSession()
     const { setUrl } = useDataTable()
 
     // Form Data
@@ -324,7 +322,6 @@ export default function Datatable({ url, filter, template, title, allowCreate = 
     // End Filter
 
     if (error) {
-        console.log(session)
         return <div>Error</div>
     }
 

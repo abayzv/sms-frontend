@@ -1,9 +1,9 @@
 import Crud from "../../components/crud"
 import formatPrice from "@/utils/formatPrice"
 
-Products.auth = {}
+ProductsPage.auth = {}
 
-export default function Products() {
+export default function ProductsPage() {
 
     return (
         <Crud

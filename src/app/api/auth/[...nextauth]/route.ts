@@ -21,8 +21,14 @@ export const authOptions: AuthOptions = {
       return true;
     },
     async session({ session, user, token }) {
-      session.user = token as any;
-      return session;
+      session.user = {
+        access_token: token.access_token,
+        refresh_token: token.refresh_token,
+        email: token.email,
+        firstName: token.firstName,
+        lastName: token.lastName,
+      } as any;
+      return { ...session, ...user };
     },
     async jwt({ token, user, account, profile, trigger, session }) {
       // if trigger update , set new token
@@ -74,8 +80,6 @@ export const authOptions: AuthOptions = {
           access_token: data.data.accessToken,
           refresh_token: data.data.refreshToken,
         };
-
-        console.log(userData)
 
         if (user) {
           return userData;
