@@ -1,0 +1,25 @@
+import Card from "../../components/card";
+import Layout from "../../components/layout/main";
+import MdxLayout from "../../components/mdx-layout";
+import { useState } from "react";
+
+# HI!
+
+This is a test page for MDX.
+
+## This is a test
+
+This is a test of the MDX page.
+
+export default function MDXPage({ children }) {
+    return (
+        <Layout>
+            <Card>
+                <MdxLayout>
+                    {children}
+                </MdxLayout>
+            </Card>
+        </Layout>
+    )
+
+}

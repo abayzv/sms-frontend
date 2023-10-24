@@ -8,6 +8,7 @@ import InputTags from "./input-tags";
 interface IFormHooks {
     data: Array<IInput>;
     onSubmit: (data: IFormInput) => Promise<void>;
+    submitText?: string;
 }
 
 interface ISelectOption {
@@ -45,7 +46,7 @@ interface ITags {
 }
 
 
-export default function FormHook({ data, onSubmit }: IFormHooks) {
+export default function FormHook({ data, onSubmit, submitText = "Submit" }: IFormHooks) {
     const { register, watch, formState: { errors }, handleSubmit } = useForm<IFormInput>();
     const { url } = useDataTable()
 
@@ -61,6 +62,21 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
             <div className="flex flex-col gap-2">
                 {title && <label htmlFor={name} className="text-slate-600">{title}</label>}
                 <input type={type} defaultValue={defaultValue} placeholder={placeholder} {...register(name, { required: true })} className="rounded-xl p-3 bg-primary-500 bg-opacity-5 border-primary-500 focus:ring-primary-500 text-slate-700" />
+                {description && <span className="text-slate-400 text-sm">Notes: {description}</span>}
+                {errors[name] && <span className="text-red-500 text-sm">This field is required</span>}
+            </div>
+        )
+    }
+
+    function Select({ name, defaultValue, type, title, placeholder, description, options }: IInput) {
+        return (
+            <div className="flex flex-col gap-2">
+                {title && <label htmlFor={name} className="text-slate-600">{title}</label>}
+                <select defaultValue={defaultValue} {...register(name, { required: true })} className="rounded-xl p-3 bg-primary-500 bg-opacity-5 border-primary-500 focus:ring-primary-500 text-slate-700">
+                    {options?.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                    ))}
+                </select>
                 {description && <span className="text-slate-400 text-sm">Notes: {description}</span>}
                 {errors[name] && <span className="text-red-500 text-sm">This field is required</span>}
             </div>
@@ -141,11 +157,15 @@ export default function FormHook({ data, onSubmit }: IFormHooks) {
                             return (
                                 <Tags key={index} name={item.name} defaultValue={item.defaultTags} placeholder={item.placeholder} title={item.title} description={item.description} register={register} />
                             )
+                        case "select":
+                            return (
+                                <Select key={index} name={item.name} defaultValue={item.defaultValue} placeholder={item.placeholder} type={item.type} title={item.title} description={item.description} options={item.options} />
+                            )
                     }
                 })}
             </div>
             <div className="text-end mt-5">
-                <Button type="submit">Submit</Button>
+                <Button type="submit">{submitText}</Button>
             </div>
         </form>
     )

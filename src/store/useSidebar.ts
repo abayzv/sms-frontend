@@ -25,49 +25,24 @@ const menu: Menu[] = [
         icon: "dashboard",
     },
     {
-        name: "Products",
-        route: "/products",
+        name: "Crud",
+        route: "/crud",
         icon: "box",
         child: [
             {
-                name: "All Products",
-                route: "/products",
+                name: "Generate Crud",
+                route: "/crud/generate",
             },
             {
-                name: "Imports Products",
-                route: "/products/import-products",
+                name: "Crud List",
+                route: "/crud/list",
             },
         ],
     },
     {
-        name: "Stores",
-        route: "/stores",
-        icon: "store",
-        child: [
-            {
-                name: "Official Stores",
-                route: "/stores/official-stores",
-            },
-            {
-                name: "Official Content",
-                route: "/stores/official-content",
-            },
-        ],
-    },
-    {
-        name: "Orders",
-        route: "/orders",
-        icon: "receipt",
-    },
-    {
-        name: "Anlytics",
-        route: "/analytics",
+        name: "Documentation",
+        route: "/documentation",
         icon: "analytics",
-    },
-    {
-        name: "Server",
-        route: "/server",
-        icon: "server",
     }
 ];
 
