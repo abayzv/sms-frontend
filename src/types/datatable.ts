@@ -19,5 +19,6 @@ export interface IDataTable {
     title: string,
     allowCreate?: boolean,
     action?: Array<DropdownActions>,
-    dataForm?: Array<DataForm>
+    dataForm?: Array<DataForm>,
+    tableOnly?: boolean,
 }

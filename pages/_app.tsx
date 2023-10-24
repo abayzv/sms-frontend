@@ -19,19 +19,19 @@ export default function App({
 }) {
   return (
     <SessionProvider session={session}>
-      {Component.auth ? (
-        <Auth>
-          <Layout>
-            <AnimatePresence>
-              <Component {...pageProps} />
-            </AnimatePresence>
-          </Layout>
-        </Auth>
-      ) : (
-        <QueryClientProvider client={new QueryClient()}>
+      <QueryClientProvider client={new QueryClient()}>
+        {Component.auth ? (
+          <Auth>
+            <Layout>
+              <AnimatePresence>
+                <Component {...pageProps} />
+              </AnimatePresence>
+            </Layout>
+          </Auth>
+        ) : (
           <Component {...pageProps} />
-        </QueryClientProvider>
-      )}
+        )}
+      </QueryClientProvider>
     </SessionProvider>
   )
 }

@@ -15,7 +15,8 @@ interface SidebarState {
 }
 
 interface MenuState {
-    menu: Menu[]
+    menu: Menu[],
+    setMenuChild: (index: number, child: Menu[]) => void
 }
 
 const menu: Menu[] = [
@@ -32,10 +33,6 @@ const menu: Menu[] = [
             {
                 name: "Generate Crud",
                 route: "/crud/generate",
-            },
-            {
-                name: "Crud List",
-                route: "/crud/list",
             },
         ],
     },
@@ -61,6 +58,16 @@ export const useSidebar = create<SidebarState>()(
     )
 )
 
-export const useMenu = create<MenuState>(() => ({
-    menu
+export const useMenu = create<MenuState>((set) => ({
+    menu,
+    setMenuChild: (index, child) => {
+        set((state) => {
+            const newMenu = [...state.menu]
+            newMenu[index].child = [{
+                name: "Generate Crud",
+                route: "/crud/generate",
+            }, ...child]
+            return { menu: newMenu }
+        })
+    }
 }))

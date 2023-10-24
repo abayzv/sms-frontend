@@ -4,16 +4,20 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useMenu, useSidebar } from "@/store/useSidebar";
 import { signOut } from "next-auth/react";
+import { useCruds } from "@/hooks/crud/useCruds";
 
 export default function Sidebar() {
   const [showChildIndex, setShowChildIndex] = useState<number[]>([]);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const { isCollapsed } = useSidebar();
-  const { menu } = useMenu();
+  const { menu, setMenuChild } = useMenu();
 
   const router = useRouter();
   const routerPath = usePathname();
+
+  const { data } = useCruds()
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -26,10 +30,22 @@ export default function Sidebar() {
 
     document.addEventListener("click", handleClickOutside);
 
+    if (data) {
+      const { data: crudsList } = data
+      const crudMenu = crudsList.map((crud: string) => {
+        return {
+          name: crud,
+          route: `/crud/${crud}`,
+        }
+      })
+
+      setMenuChild(1, crudMenu)
+    }
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [data]);
 
   const handleClickMenu = (event: any, index: number, route: string) => {
     event.preventDefault();
@@ -113,6 +129,7 @@ export default function Sidebar() {
       );
     });
   };
+
 
   return (
     <div

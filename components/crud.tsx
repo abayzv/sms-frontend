@@ -25,6 +25,7 @@ export interface ICrud {
     canDeleteData?: boolean;
     canEditData?: boolean;
     addForm?: IInput[];
+    tableOnly?: boolean;
     message?: {
         addData?: string;
         deleteData?: string;
@@ -32,7 +33,7 @@ export interface ICrud {
     }
 }
 
-export default function Crud({ url, title, template, message, addForm = [], canAddData, canViewDetails = false, canEditData = false, canDeleteData = false }: ICrud) {
+export default function Crud({ url, title, template, message, addForm = [], canAddData, canViewDetails = false, canEditData = false, canDeleteData = false, tableOnly = false }: ICrud) {
 
     const action = [Action.detail, Action.edit, Action.delete]
 
@@ -106,8 +107,8 @@ export default function Crud({ url, title, template, message, addForm = [], canA
                 )}
 
                 {header.includes("action") ?
-                    <Datatable title={title} url={url} template={template} action={renderAction()} /> :
-                    <Datatable title={title} url={url} template={template} />
+                    <Datatable title={title} url={url} template={template} action={renderAction()} tableOnly={tableOnly} /> :
+                    <Datatable title={title} url={url} template={template} tableOnly={tableOnly} />
                 }
             </div>
         </Fadein>

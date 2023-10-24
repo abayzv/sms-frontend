@@ -19,7 +19,7 @@ import { IDataTable, ITemplate } from "@/types/datatable"
 
 const actionDropwdown: Array<DropdownActions> = []
 
-export default function Datatable({ url, filter, template, title, allowCreate = true, action = actionDropwdown, dataForm = [] }: IDataTable) {
+export default function Datatable({ url, filter, template, title, allowCreate = true, action = actionDropwdown, dataForm = [], tableOnly = false }: IDataTable) {
     const axiosAuth = useAxios()
     const [totalPage, setTotalPage] = useState(0)
     const [totalRecords, setTotalRecords] = useState(0)
@@ -323,6 +323,24 @@ export default function Datatable({ url, filter, template, title, allowCreate = 
 
     if (error) {
         return <div>Error</div>
+    }
+
+    if (tableOnly) {
+        return (
+            <>
+                <table className="w-full">
+                    <thead>
+                        <tr>
+                            <th className="text-center font-semibold bg-primary-500 text-white p-3 border-primary-500 first:rounded-l-xl last:rounded-r-xl">No</th>
+                            {renderHeader()}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {renderBody()}
+                    </tbody>
+                </table>
+            </>
+        )
     }
 
     return (
